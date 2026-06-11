@@ -10,7 +10,7 @@
  * Results are cached in localStorage so repeat visitors don't need re-sampling.
  */
 
-const STORAGE_KEY = 'portfolio-quality-tier';
+const STORAGE_KEY = 'portfolio-quality-tier-v3';
 const SAMPLE_COUNT = 120;
 const HIGH_THRESHOLD = 55;
 const MEDIUM_THRESHOLD = 35;

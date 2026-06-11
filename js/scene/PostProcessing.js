@@ -34,10 +34,10 @@ const BLOOM_PRESETS = {
     radius: 0.3,
   },
   low: {
-    enabled: false, // Bypass post-processing entirely
-    threshold: 1.0,
-    strength: 0.0,
-    radius: 0.0,
+    enabled: true, // Keep bloom enabled for soft glowing sun and particles
+    threshold: 0.9,
+    strength: 0.18,
+    radius: 0.3,
   },
 };
 

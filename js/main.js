@@ -96,9 +96,8 @@ class App {
     // 1. Start with the loading screen
     this.loader = new Loader();
 
-    // 2. Initialize performance monitoring
+    // 2. Initialize performance monitoring (sampling starts delayed in onLoadComplete)
     this.performanceMonitor = new PerformanceMonitor();
-    this.performanceMonitor.startSampling();
 
     // 3. Initialize the 3D scene while loader is showing
     this.initScene();
@@ -188,6 +187,13 @@ class App {
 
     // Initialize all sections
     this.initSections();
+
+    // Start performance sampling 2.5s after loader is dismissed to avoid initial loading lag
+    setTimeout(() => {
+      if (this.performanceMonitor) {
+        this.performanceMonitor.startSampling();
+      }
+    }, 2500);
 
     this.isInitialized = true;
     console.log('🌸 Portfolio fully initialized. Welcome, visitor!');

@@ -235,7 +235,8 @@ export class ZenGarden {
    * @param {'high'|'medium'|'low'} level
    */
   setQuality(level) {
-    this._material.wireframe = level === 'low';
+    // Keep solid plane regardless of quality for beautiful aesthetics
+    this._material.wireframe = false;
   }
 
   /* ---------------------------------------------------------------- */
