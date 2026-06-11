@@ -12,7 +12,7 @@
 import * as THREE from 'three';
 
 // --- Constants ---
-const PETAL_COUNT = 280;
+const PETAL_COUNT = 800;
 const SPAWN_HEIGHT = 35;
 const KILL_HEIGHT = -10;
 const SPAWN_RADIUS_XZ = 30;

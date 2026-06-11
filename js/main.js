@@ -162,7 +162,7 @@ class App {
       // Only subtle atmospheric objects — no terrain/arch clutter
 
       // Cherry blossom particle system
-      this.cherryBlossoms = new CherryBlossoms(280);
+      this.cherryBlossoms = new CherryBlossoms(800);
       this.cherryBlossoms.camera = this.camera.camera;
       this.sceneManager.addObject(this.cherryBlossoms);
 
@@ -280,10 +280,10 @@ class App {
   setQuality(level) {
     if (this.sceneManager) this.sceneManager.setQuality(level);
 
-    // Adjust particle counts based on quality
+    // Adjust particle counts based on quality — keep a high count for stunning aesthetics
     if (this.cherryBlossoms) {
-      const intensityMap = { high: 1, medium: 0.6, low: 0.25 };
-      this.cherryBlossoms.setIntensity(intensityMap[level] || 0.5);
+      const intensityMap = { high: 1.0, medium: 0.8, low: 0.5 };
+      this.cherryBlossoms.setIntensity(intensityMap[level] || 0.8);
     }
 
     console.log(`⚙️ Quality set to: ${level}`);
