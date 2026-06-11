@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Agile Platform — Kanban & Team Analytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="header">
+    <div class="logo">
+      <span>NEXUS</span> <span class="badge">V1.0 LIVE</span>
+    </div>
+    <div class="view-switches">
+      <button id="view-board-btn" class="switch-btn active">Board View</button>
+      <button id="view-analytics-btn" class="switch-btn">Analytics View</button>
+    </div>
+    <div class="header-actions">
+      <button id="add-task-btn" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <span>Add Task</span>
+      </button>
+      <a href="/" class="btn btn-secondary">
+        <span>Back to Portfolio</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="app-layout">
+    <!-- Board View -->
+    <div id="board-view" class="view-panel active">
+      <div class="kanban-columns">
+        <!-- Backlog -->
+        <div class="kanban-col" data-col="backlog">
+          <div class="col-header">
+            <h3>Backlog</h3>
+            <span class="count-badge" id="count-backlog">0</span>
+          </div>
+          <div class="col-body" id="col-backlog"></div>
+        </div>
+
+        <!-- Todo -->
+        <div class="kanban-col" data-col="todo">
+          <div class="col-header">
+            <h3>Todo</h3>
+            <span class="count-badge" id="count-todo">0</span>
+          </div>
+          <div class="col-body" id="col-todo"></div>
+        </div>
+
+        <!-- In Progress -->
+        <div class="kanban-col" data-col="progress">
+          <div class="col-header">
+            <h3>In Progress</h3>
+            <span class="count-badge" id="count-progress">0</span>
+          </div>
+          <div class="col-body" id="col-progress"></div>
+        </div>
+
+        <!-- Review -->
+        <div class="kanban-col" data-col="review">
+          <div class="col-header">
+            <h3>Review</h3>
+            <span class="count-badge" id="count-review">0</span>
+          </div>
+          <div class="col-body" id="col-review"></div>
+        </div>
+
+        <!-- Done -->
+        <div class="kanban-col" data-col="done">
+          <div class="col-header">
+            <h3>Done</h3>
+            <span class="count-badge" id="count-done">0</span>
+          </div>
+          <div class="col-body" id="col-done"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics View -->
+    <div id="analytics-view" class="view-panel">
+      <div class="analytics-grid">
+        <!-- Completeness Circle -->
+        <div class="analytics-card glass-panel text-center">
+          <h3>Sprint Completeness</h3>
+          <div class="gauge-container">
+            <svg class="progress-ring" width="160" height="160">
+              <circle class="progress-ring__circle-bg" stroke="rgba(255,255,255,0.05)" stroke-width="12" fill="transparent" r="70" cx="80" cy="80"/>
+              <circle class="progress-ring__circle" id="progress-circle" stroke="#4facfe" stroke-width="12" fill="transparent" r="70" cx="80" cy="80"/>
+            </svg>
+            <div class="gauge-value" id="completeness-val">0%</div>
+          </div>
+          <p class="card-hint">Total Done tasks divided by Sprint tasks</p>
+        </div>
+
+        <!-- Workload bars -->
+        <div class="analytics-card glass-panel">
+          <h3>Resource Distribution</h3>
+          <div class="resource-bars" id="resource-bars-container">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Burndown line -->
+        <div class="analytics-card glass-panel col-span-2">
+          <h3>Velocity Burndown Trend</h3>
+          <div class="chart-container">
+            <svg class="burndown-chart" viewBox="0 0 500 220" preserveAspectRatio="none">
+              <!-- Grid Lines -->
+              <line x1="40" y1="20" x2="480" y2="20" stroke="rgba(255,255,255,0.04)" />
+              <line x1="40" y1="70" x2="480" y2="70" stroke="rgba(255,255,255,0.04)" />
+              <line x1="40" y1="120" x2="480" y2="120" stroke="rgba(255,255,255,0.04)" />
+              <line x1="40" y1="170" x2="480" y2="170" stroke="rgba(255,255,255,0.04)" />
+
+              <!-- Day Markers (Vertical Lines) -->
+              <line x1="40" y1="20" x2="40" y2="190" stroke="rgba(255,255,255,0.06)" />
+              <line x1="150" y1="20" x2="150" y2="190" stroke="rgba(255,255,255,0.04)" />
+              <line x1="260" y1="20" x2="260" y2="190" stroke="rgba(255,255,255,0.04)" />
+              <line x1="370" y1="20" x2="370" y2="190" stroke="rgba(255,255,255,0.04)" />
+              <line x1="480" y1="20" x2="480" y2="190" stroke="rgba(255,255,255,0.06)" />
+
+              <!-- Ideal burndown dashed line -->
+              <line x1="40" y1="40" x2="480" y2="170" stroke="rgba(255, 255, 255, 0.2)" stroke-dasharray="5,5" stroke-width="2" />
+
+              <!-- Actual burndown dynamic path -->
+              <path id="burndown-path" d="" fill="none" stroke="#f5576c" stroke-width="4" stroke-linecap="round" />
+              <g id="burndown-dots"></g>
+
+              <!-- Axis labels -->
+              <text x="40" y="210" fill="var(--text-muted)" font-size="10" text-anchor="middle">Day 1</text>
+              <text x="150" y="210" fill="var(--text-muted)" font-size="10" text-anchor="middle">Day 2</text>
+              <text x="260" y="210" fill="var(--text-muted)" font-size="10" text-anchor="middle">Day 3</text>
+              <text x="370" y="210" fill="var(--text-muted)" font-size="10" text-anchor="middle">Day 4</text>
+              <text x="480" y="210" fill="var(--text-muted)" font-size="10" text-anchor="middle">Day 5</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Task Modal -->
+  <div class="modal-overlay" id="task-modal">
+    <div class="modal-card glass-panel">
+      <div class="modal-header">
+        <h2>Add Workspace Task</h2>
+        <button id="close-modal-btn" class="close-btn">&times;</button>
+      </div>
+      <form id="task-form">
+        <div class="form-group">
+          <label for="task-title">Task Title</label>
+          <input type="text" id="task-title" required placeholder="e.g. Design Hero Section">
+        </div>
+        <div class="form-group">
+          <label for="task-desc">Description</label>
+          <textarea id="task-desc" required placeholder="Outline task goals and details..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="task-priority">Priority</label>
+            <select id="task-priority">
+              <option value="low">Low Priority</option>
+              <option value="medium" selected>Medium Priority</option>
+              <option value="high">High Priority</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="task-category">Category</label>
+            <select id="task-category">
+              <option value="Design">Design</option>
+              <option value="Frontend">Frontend</option>
+              <option value="Backend">Backend</option>
+              <option value="Devops">DevOps</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="cancel-task-btn" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

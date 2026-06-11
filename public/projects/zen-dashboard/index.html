@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zen Dashboard — Minimal Workspace & Focus Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+JP:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="header">
+    <div class="logo">
+      <span>ZEN</span> <span class="jp-sub">禅</span> <span class="badge">V1.0 LIVE</span>
+    </div>
+    <div class="status-msg" id="zen-time">
+      --:--:--
+    </div>
+    <div class="header-actions">
+      <button id="zen-reset-btn" class="btn btn-secondary">Reset Focus</button>
+      <a href="/" class="btn btn-secondary">Back to Portfolio</a>
+    </div>
+  </header>
+
+  <main class="app-layout">
+    <!-- Main Focus Area: Column Left -->
+    <div class="focus-area">
+      <!-- Breathing Guide Widget -->
+      <section class="widget breathing-widget glass-panel">
+        <span class="widget-subtitle">心身統一 // BREATHING GUIDE</span>
+        <h2>Mindful Breathing</h2>
+        
+        <div class="breath-container">
+          <div class="breath-circle" id="breath-circle">
+            <div class="breath-circle-inner"></div>
+          </div>
+          <div class="breath-label" id="breath-label">Click to Start</div>
+        </div>
+
+        <div class="breath-actions">
+          <button id="breath-toggle-btn" class="btn btn-primary btn-wide">Start Breathing Circle</button>
+        </div>
+      </section>
+
+      <!-- Ambient Sound Mixer Widget -->
+      <section class="widget sound-widget glass-panel">
+        <span class="widget-subtitle">静寂の音 // AMBIENT MIXER</span>
+        <h2>Focus Soundscapes</h2>
+        <p class="section-desc">Fully synthesized in real time using Web Audio nodes. No external assets required.</p>
+        
+        <div class="sound-mixer">
+          <!-- Rain -->
+          <div class="mixer-row" id="mixer-rain">
+            <div class="mixer-info">
+              <span class="mixer-title">Rainfall</span>
+              <button class="mixer-toggle" data-sound="rain">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="play-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pause-icon" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+              </button>
+            </div>
+            <div class="slider-wrapper">
+              <input type="range" class="mixer-volume" min="0" max="1" step="0.05" value="0.5">
+            </div>
+          </div>
+
+          <!-- Wind -->
+          <div class="mixer-row" id="mixer-wind">
+            <div class="mixer-info">
+              <span class="mixer-title">Autumn Wind</span>
+              <button class="mixer-toggle" data-sound="wind">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="play-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pause-icon" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+              </button>
+            </div>
+            <div class="slider-wrapper">
+              <input type="range" class="mixer-volume" min="0" max="1" step="0.05" value="0.5">
+            </div>
+          </div>
+
+          <!-- Water stream -->
+          <div class="mixer-row" id="mixer-stream">
+            <div class="mixer-info">
+              <span class="mixer-title">Bubbly Stream</span>
+              <button class="mixer-toggle" data-sound="stream">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="play-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pause-icon" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+              </button>
+            </div>
+            <div class="slider-wrapper">
+              <input type="range" class="mixer-volume" min="0" max="1" step="0.05" value="0.5">
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sidebar Task area: Column Right -->
+    <div class="task-area">
+      <!-- Task manager -->
+      <section class="widget task-widget glass-panel">
+        <span class="widget-subtitle">集中リスト // DAILY FOCUS</span>
+        <h2>Focus Goals</h2>
+        
+        <form class="todo-form" id="todo-form">
+          <input type="text" id="todo-input" required placeholder="Add focus goal (e.g. Write canvas sketch)...">
+          <button type="submit" class="btn btn-primary btn-square">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </form>
+
+        <ul class="todo-list" id="todo-list">
+          <!-- Injected by JS -->
+        </ul>
+      </section>
+
+      <!-- Stats Widget -->
+      <section class="widget stats-widget glass-panel">
+        <span class="widget-subtitle">日誌 // WEEKLY PROGRESS</span>
+        <h2>Focus Analytics</h2>
+        <div class="stats-metric">
+          <div class="metric-group">
+            <div class="metric-num" id="total-focus-time">4.2h</div>
+            <div class="metric-label">Focus logged</div>
+          </div>
+          <div class="metric-group">
+            <div class="metric-num" id="completed-goals-count">8</div>
+            <div class="metric-label">Goals completed</div>
+          </div>
+        </div>
+
+        <div class="mini-chart-container">
+          <svg viewBox="0 0 240 100" class="mini-line-chart">
+            <line x1="10" y1="10" x2="10" y2="80" stroke="rgba(255,255,255,0.06)" />
+            <line x1="10" y1="80" x2="230" y2="80" stroke="rgba(255,255,255,0.06)" />
+            <path d="M10,70 L50,55 L90,65 L130,40 L170,25 L210,35" fill="none" stroke="#D4A574" stroke-width="2.5" stroke-linecap="round" />
+            <circle cx="210" cy="35" r="4" fill="#D4A574" stroke="#0a0a0d" stroke-width="1.5" />
+            <text x="10" y="94" fill="rgba(255,255,255,0.2)" font-size="8">Mon</text>
+            <text x="210" y="94" fill="rgba(255,255,255,0.2)" font-size="8" text-anchor="middle">Today</text>
+          </svg>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

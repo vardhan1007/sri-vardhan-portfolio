@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="sakura">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sri Vardhan — Full-Stack Developer, UI/UX Designer, and Aspiring Mangaka. I build worlds in code and on canvas.">
+  <meta property="og:title" content="Sri Vardhan | Portfolio">
+  <meta property="og:description" content="I build worlds — in code and on canvas">
+  <meta property="og:type" content="website">
+  <title>Sri Vardhan | Portfolio</title>
+
+  <!-- Google Fonts: Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+JP:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet (imports themes, animations, components) -->
+  <link rel="stylesheet" href="/styles/index.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       CUSTOM CURSOR — Dual-ring cursor (hidden on touch devices)
+       ============================================================ -->
+  <div class="custom-cursor">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+  </div>
+
+
+  <!-- ============================================================
+       LOADER — Full-screen loading with Japanese character 縁
+       ============================================================ -->
+  <div class="loader" id="loader">
+    <div class="loader__kanji">縁</div>
+    <div class="loader__progress">
+      <div class="loader__progress-bar" id="loader-progress"></div>
+    </div>
+    <p class="loader__text">読み込み中...</p>
+  </div>
+
+
+  <!-- ============================================================
+       CANVAS CONTAINER — Three.js WebGL scene renders here
+       ============================================================ -->
+  <div id="canvas-container"></div>
+
+
+  <!-- ============================================================
+       NAVIGATION — Fixed top nav with glass morphism on scroll
+       ============================================================ -->
+  <nav class="nav" id="nav">
+    <a href="#hero" class="nav__logo">
+      Sri Vardhan
+      <span class="jp-accent">スリ</span>
+    </a>
+
+    <ul class="nav__links" id="nav-links">
+      <li><a href="#about" class="nav__link">About</a></li>
+      <li><a href="#projects" class="nav__link">Projects</a></li>
+      <li><a href="#skills" class="nav__link">Skills</a></li>
+      <li><a href="#manga" class="nav__link">Art</a></li>
+      <li><a href="#experience" class="nav__link">Experience</a></li>
+      <li><a href="#contact" class="nav__link">Contact</a></li>
+    </ul>
+
+    <a href="#" class="nav__resume magnetic-btn" download>
+      <span class="btn-text">Resume</span>
+    </a>
+
+    <button class="nav__hamburger" id="nav-hamburger" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+
+  <!-- ============================================================
+       CONTENT WRAPPER — All sections sit above the 3D canvas
+       ============================================================ -->
+  <div class="content-wrapper">
+
+    <!-- ──────────────────────────────────────────────────────────
+         HERO SECTION
+         ────────────────────────────────────────────────────────── -->
+    <section id="hero" class="section hero-section">
+      <!-- Scrolling ancient text columns — behind everything -->
+      <div class="hero__ancient-text" aria-hidden="true">
+        <div class="hero__text-col" style="--col-speed: 25s; --col-delay: 0s; left: 5%;">
+          <span>呪術廻戦の力を持って世界を支配する者は誰もいない永遠の闘いが続く呪術廻戦の力を持って世界を支配する者は誰もいない永遠の闘いが続く</span>
+        </div>
+        <div class="hero__text-col" style="--col-speed: 32s; --col-delay: -5s; left: 15%;">
+          <span>縁は運命を紡ぐ糸であり全ての出会いには意味がある創造と破壊の間に真実がある縁は運命を紡ぐ糸であり全ての出会いには意味がある創造と破壊の間に真実がある</span>
+        </div>
+        <div class="hero__text-col" style="--col-speed: 28s; --col-delay: -8s; left: 25%;">
+          <span>開発者として世界を構築しデザイナーとして魂を注ぐコードとキャンバスの間に生きる開発者として世界を構築しデザイナーとして魂を注ぐコードとキャンバスの間に生きる</span>
+        </div>
+        <div class="hero__text-col" style="--col-speed: 35s; --col-delay: -3s; left: 35%;">
+          <span>無限の可能性を秘めた技術と芸術の融合が未来を切り開く光と闇の境界で踊る無限の可能性を秘めた技術と芸術の融合が未来を切り開く光と闇の境界で踊る</span>
+        </div>
+        <div class="hero__text-col" style="--col-speed: 22s; --col-delay: -12s; left: 48%;">
+          <span>漫画家の夢を追いかけてペンとコードを武器に新しい世界を描き続ける漫画家の夢を追いかけてペンとコードを武器に新しい世界を描き続ける</span>
+        </div>
+        <div class="hero__text-col" style="--col-speed: 30s; --col-delay: -7s; left: 60%;">
+          <span>精密なる工学と芸術的なる閃きの交差点にこそ最高の作品が生まれる精密なる工学と芸術的なる閃きの交差点にこそ最高の作品が生まれる</span>
+        </div>
+        <div class="hero__text-col" style="--col-speed: 27s; --col-delay: -15s; left: 73%;">
+          <span>闇を切り裂く光のように技術革新は常に前進し続ける運命の輪は回り続ける闇を切り裂く光のように技術革新は常に前進し続ける運命の輪は回り続ける</span>
+        </div>
+        <div class="hero__text-col" style="--col-speed: 33s; --col-delay: -10s; left: 87%;">
+          <span>全てのコードには物語がありデザインには感情が宿る創造者の使命は世界を変えること全てのコードには物語がありデザインには感情が宿る創造者の使命は世界を変えること</span>
+        </div>
+      </div>
+
+      <!-- Social links — vertical strip on left -->
+      <div class="hero__socials">
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="hero__social-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="hero__social-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </a>
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="hero__social-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg>
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hero__social-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+      </div>
+
+      <!-- Main hero content — left side -->
+      <div class="hero__content">
+        <p class="hero__greeting reveal">I am</p>
+        <h1 class="hero__name reveal">
+          <span>S</span><span>r</span><span>i</span><span>&nbsp;</span><span>V</span><span>a</span><span>r</span><span>d</span><span>h</span><span>a</span><span>n</span>
+        </h1>
+        <p class="hero__tagline reveal">
+          designer / developer
+        </p>
+        <div class="hero__cta reveal">
+          <a href="#projects" class="magnetic-btn hero-btn-primary">
+            <span class="btn-text">View My Work</span>
+          </a>
+          <a href="#contact" class="magnetic-btn hero-btn-secondary">
+            <span class="btn-text">Get In Touch</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Bottom stats bar -->
+      <div class="hero__stats">
+        <div class="hero__stat">
+          <span class="hero__stat-value">3+ years experience</span>
+        </div>
+        <div class="hero__stat-divider"></div>
+        <div class="hero__stat">
+          <span class="hero__stat-value">Trustworthy</span>
+        </div>
+        <div class="hero__stat-divider"></div>
+        <div class="hero__stat">
+          <span class="hero__stat-value">Modern designs</span>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="hero__scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+
+    <!-- ──────────────────────────────────────────────────────────
+         ABOUT SECTION
+         ────────────────────────────────────────────────────────── -->
+    <section id="about" class="section about-section">
+      <div class="about__container">
+        <div class="about__text">
+          <span class="section-heading jp-subtitle">私について</span>
+          <h2 class="section-heading reveal">About Me</h2>
+
+          <p class="about__bio reveal">
+            I'm a full-stack developer and UI/UX designer with a passion for 
+            crafting digital experiences that feel alive. By day, I architect 
+            scalable web applications and design intuitive interfaces. By night, 
+            I'm an aspiring mangaka, sketching characters and building worlds 
+            with ink and imagination. Currently building a startup as an aspiring 
+            CTO, merging technology and creativity to solve real-world problems. 
+            I believe the best products are born where engineering precision meets 
+            artistic vision — and that's exactly where I live.
+          </p>
+
+          <div class="about__stats reveal">
+            <div class="about__stat">
+              <span class="about__stat-number">3+</span>
+              <span class="about__stat-label">Years Experience</span>
+            </div>
+            <div class="about__stat">
+              <span class="about__stat-number">25+</span>
+              <span class="about__stat-label">Projects Completed</span>
+            </div>
+            <div class="about__stat">
+              <span class="about__stat-number">15+</span>
+              <span class="about__stat-label">Technologies</span>
+            </div>
+            <div class="about__stat">
+              <span class="about__stat-number">∞</span>
+              <span class="about__stat-label">Cups of Coffee</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about__image reveal">
+          <div class="glass-panel">
+            <img src="/assets/profile.png" alt="Sri Vardhan">
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ──────────────────────────────────────────────────────────
+         PROJECTS SECTION
+         ────────────────────────────────────────────────────────── -->
+    <section id="projects" class="section projects-section">
+      <span class="section-heading jp-subtitle">作品集</span>
+      <h2 class="section-heading reveal">Featured Projects</h2>
+
+      <div class="projects__grid">
+        <!-- Project 1: Aurora -->
+        <div class="project-card reveal">
+          <span class="project-card__status">
+            <span class="project-card__status-dot" style="--status-color: #39ff14;"></span>
+            V1.0 Live
+          </span>
+          <img src="/assets/projects/aurora.png" alt="Project Aurora" class="project-card__image">
+          <div class="project-card__content">
+            <h3>Project Aurora</h3>
+            <p>A real-time collaborative design platform with AI-powered design suggestions and seamless team workflows. Built for the next generation of designers.</p>
+            <div class="project-card__tags">
+              <span class="project-card__tag">React</span>
+              <span class="project-card__tag">Node.js</span>
+              <span class="project-card__tag">WebSocket</span>
+              <span class="project-card__tag">AI/ML</span>
+            </div>
+            <div class="project-card__links">
+              <a href="/projects/aurora/" class="magnetic-btn">
+                <span class="btn-text">Live Demo</span>
+              </a>
+              <a href="https://github.com/srivardhan/project-aurora" target="_blank" rel="noopener noreferrer" class="magnetic-btn secondary">
+                <span class="btn-text">GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: Nexus Platform -->
+        <div class="project-card reveal">
+          <span class="project-card__status">
+            <span class="project-card__status-dot" style="--status-color: #39ff14;"></span>
+            V1.0 Live
+          </span>
+          <img src="/assets/projects/nexus.png" alt="Nexus Platform" class="project-card__image">
+          <div class="project-card__content">
+            <h3>Nexus Platform</h3>
+            <p>Enterprise-grade project management with real-time analytics, resource allocation, and predictive timeline modeling for agile teams.</p>
+            <div class="project-card__tags">
+              <span class="project-card__tag">Next.js</span>
+              <span class="project-card__tag">TypeScript</span>
+              <span class="project-card__tag">PostgreSQL</span>
+              <span class="project-card__tag">GraphQL</span>
+            </div>
+            <div class="project-card__links">
+              <a href="/projects/nexus/" class="magnetic-btn">
+                <span class="btn-text">Live Demo</span>
+              </a>
+              <a href="https://github.com/srivardhan/nexus-platform" target="_blank" rel="noopener noreferrer" class="magnetic-btn secondary">
+                <span class="btn-text">GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: Zen Dashboard -->
+        <div class="project-card reveal">
+          <span class="project-card__status">
+            <span class="project-card__status-dot" style="--status-color: #39ff14;"></span>
+            V1.0 Live
+          </span>
+          <img src="/assets/projects/zen.png" alt="Zen Dashboard" class="project-card__image">
+          <div class="project-card__content">
+            <h3>Zen Dashboard</h3>
+            <p>A minimal, distraction-free analytics dashboard inspired by Japanese aesthetics. Features customizable widgets and dark/light modes.</p>
+            <div class="project-card__tags">
+              <span class="project-card__tag">HTML/CSS</span>
+              <span class="project-card__tag">JavaScript</span>
+              <span class="project-card__tag">Three.js</span>
+            </div>
+            <div class="project-card__links">
+              <a href="/projects/zen-dashboard/" class="magnetic-btn">
+                <span class="btn-text">Live Demo</span>
+              </a>
+              <a href="https://github.com/srivardhan/zen-dashboard" target="_blank" rel="noopener noreferrer" class="magnetic-btn secondary">
+                <span class="btn-text">GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4: Manga Reader App -->
+        <div class="project-card reveal">
+          <span class="project-card__status">
+            <span class="project-card__status-dot" style="--status-color: #39ff14;"></span>
+            V1.0 Live
+          </span>
+          <img src="/assets/projects/manga.png" alt="Manga Reader App" class="project-card__image">
+          <div class="project-card__content">
+            <h3>Manga Reader App</h3>
+            <p>A beautiful, responsive reader application designed for manga fans. High performance image caching and horizontal/vertical scroll modes.</p>
+            <div class="project-card__tags">
+              <span class="project-card__tag">React</span>
+              <span class="project-card__tag">Next.js</span>
+              <span class="project-card__tag">Tailwind</span>
+              <span class="project-card__tag">Service Worker</span>
+            </div>
+            <div class="project-card__links">
+              <a href="/projects/manga-reader/" class="magnetic-btn">
+                <span class="btn-text">Live Demo</span>
+              </a>
+              <a href="https://github.com/srivardhan/manga-reader" target="_blank" rel="noopener noreferrer" class="magnetic-btn secondary">
+                <span class="btn-text">GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ──────────────────────────────────────────────────────────
+         SKILLS / TECH STACK SECTION
+         ────────────────────────────────────────────────────────── -->
+    <section id="skills" class="section skills-section">
+      <span class="section-heading jp-subtitle">技術</span>
+      <h2 class="section-heading reveal">Tech Stack</h2>
+
+      <div class="skills-carousel-container reveal">
+        <!-- Carousel Tabs Navigation -->
+        <div class="deck-tabs">
+          <button class="deck-tab active" data-slide="0">01. Frontend</button>
+          <button class="deck-tab" data-slide="1">02. Backend</button>
+          <button class="deck-tab" data-slide="2">03. Design</button>
+          <button class="deck-tab" data-slide="3">04. Tools</button>
+        </div>
+
+        <!-- 3D Carousel Orbit Track -->
+        <div class="carousel-track">
+          <!-- Slide 1: Frontend -->
+          <div class="carousel-card active" data-index="0">
+            <div class="slide-header">
+              <span class="slide-num">01 //</span>
+              <h3>Frontend Development</h3>
+            </div>
+            <div class="slide-content">
+              <div class="slide-meta">
+                <p class="slide-desc">Building fast, responsive, and visually stunning user interfaces using modern web frameworks and technologies.</p>
+                <span class="jp-accent">インターフェース</span>
+              </div>
+              <div class="slide-skills">
+                <div class="slide-skill-row">
+                  <span class="skill-name">React</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 60%"></div>
+                  </div>
+                  <span class="skill-percent">60%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Next.js</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 78%"></div>
+                  </div>
+                  <span class="skill-percent">78%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">TypeScript</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 47%"></div>
+                  </div>
+                  <span class="skill-percent">47%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Three.js</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 53%"></div>
+                  </div>
+                  <span class="skill-percent">53%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">CSS/SASS</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 91%"></div>
+                  </div>
+                  <span class="skill-percent">91%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Tailwind</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 69%"></div>
+                  </div>
+                  <span class="skill-percent">69%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2: Backend -->
+          <div class="carousel-card" data-index="1">
+            <div class="slide-header">
+              <span class="slide-num">02 //</span>
+              <h3>Backend &amp; Infrastructure</h3>
+            </div>
+            <div class="slide-content">
+              <div class="slide-meta">
+                <p class="slide-desc">Architecting robust APIs, database schemas, serverless functions, and scalable cloud deployments.</p>
+                <span class="jp-accent">データベース</span>
+              </div>
+              <div class="slide-skills">
+                <div class="slide-skill-row">
+                  <span class="skill-name">Node.js</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 89%"></div>
+                  </div>
+                  <span class="skill-percent">89%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Python</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 93%"></div>
+                  </div>
+                  <span class="skill-percent">93%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">PostgreSQL</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 57%"></div>
+                  </div>
+                  <span class="skill-percent">57%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">MongoDB</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 59%"></div>
+                  </div>
+                  <span class="skill-percent">59%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">GraphQL</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 41%"></div>
+                  </div>
+                  <span class="skill-percent">41%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Docker</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 46%"></div>
+                  </div>
+                  <span class="skill-percent">46%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3: Design -->
+          <div class="carousel-card" data-index="2">
+            <div class="slide-header">
+              <span class="slide-num">03 //</span>
+              <h3>Design &amp; Creative</h3>
+            </div>
+            <div class="slide-content">
+              <div class="slide-meta">
+                <p class="slide-desc">Crafting pixel-perfect interface mockups, layouts, brand illustrations, and interactive 3D assets.</p>
+                <span class="jp-accent">クリエイティブ</span>
+              </div>
+              <div class="slide-skills">
+                <div class="slide-skill-row">
+                  <span class="skill-name">Figma</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 79%"></div>
+                  </div>
+                  <span class="skill-percent">79%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Adobe XD</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 34%"></div>
+                  </div>
+                  <span class="skill-percent">34%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Photoshop</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 36%"></div>
+                  </div>
+                  <span class="skill-percent">36%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Illustrator</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 41%"></div>
+                  </div>
+                  <span class="skill-percent">41%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Blender</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 54%"></div>
+                  </div>
+                  <span class="skill-percent">54%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 4: Tools -->
+          <div class="carousel-card" data-index="3">
+            <div class="slide-header">
+              <span class="slide-num">04 //</span>
+              <h3>Development Tools</h3>
+            </div>
+            <div class="slide-content">
+              <div class="slide-meta">
+                <p class="slide-desc">Managing code repositories, automation pipelines, local environments, and high-performance bundlers.</p>
+                <span class="jp-accent">開発ツール</span>
+              </div>
+              <div class="slide-skills">
+                <div class="slide-skill-row">
+                  <span class="skill-name">Git</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 93%"></div>
+                  </div>
+                  <span class="skill-percent">93%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">VS Code</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 100%"></div>
+                  </div>
+                  <span class="skill-percent">100%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">AWS</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 62%"></div>
+                  </div>
+                  <span class="skill-percent">62%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Linux</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 47%"></div>
+                  </div>
+                  <span class="skill-percent">47%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Webpack</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 32%"></div>
+                  </div>
+                  <span class="skill-percent">32%</span>
+                </div>
+                <div class="slide-skill-row">
+                  <span class="skill-name">Vite</span>
+                  <div class="slide-line-wrapper">
+                    <div class="skill-line" style="--level: 67%"></div>
+                  </div>
+                  <span class="skill-percent">67%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ──────────────────────────────────────────────────────────
+         MANGA / ART GALLERY SECTION
+         ────────────────────────────────────────────────────────── -->
+    <section id="manga" class="section manga-section">
+      <span class="section-heading jp-subtitle">芸術</span>
+      <h2 class="section-heading reveal">Art &amp; Manga</h2>
+
+      <p class="manga__intro reveal">
+        Beyond code, I express myself through manga and illustration. Every character 
+        has a story, every panel holds emotion. Here's a glimpse into my artistic journey 
+        — from quick sketches to full manga pages.
+      </p>
+
+      <div class="manga__filters reveal">
+        <button class="manga__filter-btn active" data-filter="all">All</button>
+        <button class="manga__filter-btn" data-filter="illustrations">Illustrations</button>
+        <button class="manga__filter-btn" data-filter="characters">Character Design</button>
+        <button class="manga__filter-btn" data-filter="pages">Manga Pages</button>
+      </div>
+
+      <div class="manga__grid">
+        <!-- Panel 1 — tall -->
+        <div class="manga-panel reveal" data-category="illustrations">
+          <img src="/assets/manga/manga3.png" alt="Moonlit Siren" class="manga-panel__image">
+          <div class="manga-panel__overlay">
+            <div>
+              <h4>Moonlit Siren</h4>
+              <p>Character Sketch</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2 -->
+        <div class="manga-panel reveal" data-category="characters">
+          <img src="/assets/manga/manga2.jpg" alt="Character Sketch: Kenji" class="manga-panel__image">
+          <div class="manga-panel__overlay">
+            <div>
+              <h4>Kenji</h4>
+              <p>Character Sketch</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3 — wide -->
+        <div class="manga-panel reveal" data-category="pages">
+          <img src="/assets/manga/manga1.png" alt="Chapter 1: Awakening" class="manga-panel__image">
+          <div class="manga-panel__overlay">
+            <div>
+              <h4>Chapter 1: Awakening</h4>
+              <p>Manga Page</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 4 -->
+        <div class="manga-panel reveal" data-category="illustrations">
+          <img src="/assets/manga/manga4.png" alt="Concept Sketch: Ren" class="manga-panel__image">
+          <div class="manga-panel__overlay">
+            <div>
+              <h4>Concept: Ren</h4>
+              <p>Concept Sketch</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 5 — tall -->
+        <div class="manga-panel reveal" data-category="characters">
+          <img src="/assets/manga/manga5.png" alt="Profile Sketch: Hiro" class="manga-panel__image">
+          <div class="manga-panel__overlay">
+            <div>
+              <h4>Profile: Hiro</h4>
+              <p>Character Sketch</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 6 -->
+        <div class="manga-panel reveal" data-category="characters">
+          <img src="/assets/manga/manga6.png" alt="Sora Sketch" class="manga-panel__image">
+          <div class="manga-panel__overlay">
+            <div>
+              <h4>Sora</h4>
+              <p>Character Design</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 7 -->
+        <div class="manga-panel reveal" data-category="illustrations">
+          <img src="/assets/manga/manga7.png" alt="Gaze of Passion" class="manga-panel__image">
+          <div class="manga-panel__overlay">
+            <div>
+              <h4>Gaze of Passion</h4>
+              <p>Red Pencil Sketch</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 8 — wide -->
+        <div class="manga-panel reveal" data-category="illustrations">
+          <img src="/assets/manga/manga8.png" alt="Formal Attire" class="manga-panel__image">
+          <div class="manga-panel__overlay">
+            <div>
+              <h4>Formal Attire</h4>
+              <p>Costume Concept Sketch</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 9 -->
+        <div class="manga-panel reveal" data-category="characters">
+          <img src="/assets/manga/manga9.png" alt="Hero Sketch" class="manga-panel__image">
+          <div class="manga-panel__overlay">
+            <div>
+              <h4>Hero</h4>
+              <p>Character Design</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ──────────────────────────────────────────────────────────
+         EXPERIENCE SECTION
+         ────────────────────────────────────────────────────────── -->
+    <section id="experience" class="section experience-section">
+      <span class="section-heading jp-subtitle">経験</span>
+      <h2 class="section-heading reveal">Experience</h2>
+
+      <div class="experience__container">
+        <div class="timeline">
+          <!-- Timeline Item 1 -->
+          <div class="timeline-item reveal">
+            <span class="timeline-item__date">2025 — Present</span>
+            <h3 class="timeline-item__title">Co-Founder &amp; CTO</h3>
+            <span class="timeline-item__company">Startup (Building)</span>
+            <p class="timeline-item__description">
+              Leading the technical vision and architecture of a stealth-mode startup. 
+              Building the product from zero, assembling the engineering team, and 
+              making critical technology decisions that will scale.
+            </p>
+          </div>
+
+          <!-- Timeline Item 2 -->
+          <div class="timeline-item reveal">
+            <span class="timeline-item__date">2024 — 2025</span>
+            <h3 class="timeline-item__title">Full-Stack Developer</h3>
+            <span class="timeline-item__company">Tech Company</span>
+            <p class="timeline-item__description">
+              Developed and maintained scalable web applications serving thousands of 
+              users. Led frontend architecture migration to React with TypeScript, 
+              reducing load times by 40%. Collaborated with design teams to implement 
+              pixel-perfect UIs.
+            </p>
+          </div>
+
+          <!-- Timeline Item 3 -->
+          <div class="timeline-item reveal">
+            <span class="timeline-item__date">2023 — 2024</span>
+            <h3 class="timeline-item__title">UI/UX Designer</h3>
+            <span class="timeline-item__company">Freelance</span>
+            <p class="timeline-item__description">
+              Designed user interfaces and experiences for startups and small businesses. 
+              Conducted user research, created wireframes and prototypes in Figma, and 
+              delivered design systems that improved user engagement by 60%.
+            </p>
+          </div>
+
+          <!-- Timeline Item 4 -->
+          <div class="timeline-item reveal">
+            <span class="timeline-item__date">2022</span>
+            <h3 class="timeline-item__title">Started Coding Journey</h3>
+            <span class="timeline-item__company">Self-taught &amp; University</span>
+            <p class="timeline-item__description">
+              Wrote my first "Hello World" and never looked back. Dove deep into web 
+              development, algorithms, and design. Built dozens of projects, contributed 
+              to open source, and fell in love with the art of creating things with code.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ──────────────────────────────────────────────────────────
+         CONTACT SECTION
+         ────────────────────────────────────────────────────────── -->
+    <section id="contact" class="section contact-section">
+      <div class="contact__container">
+        <div class="contact__info">
+          <span class="section-heading jp-subtitle">連絡先</span>
+          <h2 class="section-heading reveal">Let's Build Something Together</h2>
+
+          <p class="reveal">
+            I'm always excited to collaborate on interesting projects, discuss new 
+            ideas, or just have a conversation about technology and art. Whether you 
+            have a project in mind or just want to say hello — my inbox is always open.
+          </p>
+
+          <a href="mailto:svardhan1007@gmail.com" class="contact__email reveal">
+            svardhan1007@gmail.com
+          </a>
+
+          <div class="social-links reveal">
+            <!-- GitHub -->
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+            </a>
+
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+
+            <!-- Twitter / X -->
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+              </svg>
+            </a>
+
+            <!-- Instagram -->
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact__form-wrapper glass-panel reveal">
+          <form class="contact-form" action="#" method="POST">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
+            </div>
+            <button type="submit" class="magnetic-btn">
+              <span class="btn-text">Send Message</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ──────────────────────────────────────────────────────────
+         FOOTER
+         ────────────────────────────────────────────────────────── -->
+    <footer class="footer">
+      <div class="footer__content">
+        <p>Designed &amp; Built by Sri Vardhan</p>
+        <p class="footer__jp jp-accent">縁 — Every connection has meaning</p>
+        <p class="footer__copy">&copy; 2026 Sri Vardhan. All rights reserved.</p>
+      </div>
+    </footer>
+
+  </div><!-- end .content-wrapper -->
+
+
+  <!-- ============================================================
+       THEME SWITCHER — Fixed bottom-right panel
+       ============================================================ -->
+  <div class="theme-switcher" id="theme-switcher">
+    <button class="theme-switcher__toggle" aria-label="Change theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 2a7 7 0 0 0 0 14 5 5 0 0 1 0 6 10 10 0 0 0 0-20z" fill="currentColor" opacity="0.3"></path>
+        <circle cx="8" cy="8" r="2" fill="currentColor"></circle>
+        <circle cx="15" cy="10" r="1.5" fill="currentColor"></circle>
+        <circle cx="10" cy="15" r="1.5" fill="currentColor"></circle>
+        <circle cx="16" cy="16" r="1" fill="currentColor"></circle>
+      </svg>
+    </button>
+
+    <div class="theme-switcher__panel" id="theme-panel">
+      <button class="theme-option active" data-theme="sakura">
+        <div class="theme-option__color" style="background: #8F9E5B;"></div>
+        <span class="theme-option__name">Olive</span>
+        <span class="theme-option__jp">オリーブ</span>
+      </button>
+      <button class="theme-option" data-theme="midnight">
+        <div class="theme-option__color" style="background: #4F6BFF;"></div>
+        <span class="theme-option__name">Midnight</span>
+        <span class="theme-option__jp">夜</span>
+      </button>
+      <button class="theme-option" data-theme="forest">
+        <div class="theme-option__color" style="background: #39FF14;"></div>
+        <span class="theme-option__name">Forest</span>
+        <span class="theme-option__jp">森</span>
+      </button>
+      <button class="theme-option" data-theme="golden">
+        <div class="theme-option__color" style="background: #FFD700;"></div>
+        <span class="theme-option__name">Golden</span>
+        <span class="theme-option__jp">黄金</span>
+      </button>
+      <button class="theme-option" data-theme="arctic">
+        <div class="theme-option__color" style="background: #00D4FF;"></div>
+        <span class="theme-option__name">Arctic</span>
+        <span class="theme-option__jp">氷</span>
+      </button>
+      <button class="theme-option" data-theme="sumi">
+        <div class="theme-option__color" style="background: #888888;"></div>
+        <span class="theme-option__name">Sumi-e</span>
+        <span class="theme-option__jp">墨</span>
+      </button>
+      <button class="theme-option" data-theme="ember">
+        <div class="theme-option__color" style="background: #FF6B35;"></div>
+        <span class="theme-option__name">Ember</span>
+        <span class="theme-option__jp">炎</span>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Main Application Script (ES Module) -->
+  <script type="module" src="/js/main.js"></script>
+
+</body>
+</html>

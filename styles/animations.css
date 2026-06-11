@@ -1,0 +1,339 @@
+/* ============================================================
+   ANIMATIONS.CSS — Keyframe Animations & Reveal Utilities
+   Premium animation library for the portfolio
+   ============================================================ */
+
+
+/* ── Float — gentle hover oscillation ── */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* ── Fade In Up — content entrance from below ── */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Fade In Left — content entrance from left ── */
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Fade In Right — content entrance from right ── */
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Ink Spread — scale up with slight overshoot (Japanese ink wash feel) ── */
+@keyframes inkSpread {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ── Petal Fall — cherry blossom petals drifting down ── */
+@keyframes petalFall {
+  0% {
+    transform: translateY(-100vh) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-50vh) translateX(30px) rotate(180deg);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(0) translateX(-20px) rotate(360deg);
+    opacity: 0.7;
+  }
+  75% {
+    transform: translateY(50vh) translateX(40px) rotate(540deg);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(100vh) translateX(10px) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* ── Glow Pulse — breathing box-shadow glow ── */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--accent-glow),
+                0 0 40px transparent;
+  }
+  50% {
+    box-shadow: 0 0 30px var(--accent-glow),
+                0 0 60px var(--accent-glow);
+  }
+}
+
+/* ── Slide In From Bottom — text reveal entrance ── */
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ── Brush Stroke — width expands like a calligraphy stroke ── */
+@keyframes brushStroke {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+/* ── Typewriter — for hero text typing effect ── */
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Blinking cursor for typewriter effect */
+@keyframes blink {
+  0%, 100% {
+    border-color: var(--accent-primary);
+  }
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* ── Ripple — click/tap feedback effect ── */
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
+/* ── Gentle Rotate — subtle continuous rotation ── */
+@keyframes gentleRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Shimmer — loading/skeleton shimmer ── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ── Scroll line — for hero scroll indicator ── */
+@keyframes scrollLine {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  50.1% {
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+
+/* ============================================================
+   SCROLL REVEAL SYSTEM
+   .reveal — hidden state, .reveal.active — visible state
+   Combined with GSAP ScrollTrigger for production use
+   ============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Directional reveal variants */
+.reveal--left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition:
+    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal--left.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal--right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition:
+    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal--right.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal--scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition:
+    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal--scale.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* ============================================================
+   STAGGER DELAYS
+   Apply to children of a reveal group for cascading entrance
+   ============================================================ */
+
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+.stagger-5 { transition-delay: 0.5s; }
+.stagger-6 { transition-delay: 0.6s; }
+
+
+/* ============================================================
+   ANIMATION UTILITY CLASSES
+   Apply these directly to elements for instant animation
+   ============================================================ */
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.animate-rotate {
+  animation: gentleRotate 20s linear infinite;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-fadeInLeft {
+  animation: fadeInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-fadeInRight {
+  animation: fadeInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-inkSpread {
+  animation: inkSpread 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-brushStroke {
+  animation: brushStroke 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+
+/* ============================================================
+   REDUCED MOTION — Respect accessibility preferences
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal--left,
+  .reveal--right,
+  .reveal--scale {
+    opacity: 1;
+    transform: none;
+  }
+}

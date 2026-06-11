@@ -1,0 +1,244 @@
+/* ============================================================
+   INDEX.CSS — Core Design System & Global Styles
+   Imports all other CSS modules. Entry point for styles.
+   ============================================================ */
+
+/* ── CSS Module Imports ── */
+@import './themes.css';
+@import './animations.css';
+@import './components.css';
+@import './hero.css';
+
+
+/* ============================================================
+   SPACING TOKENS
+   Consistent spacing scale used throughout the design
+   ============================================================ */
+
+:root {
+  --space-xs: 0.25rem;   /*  4px */
+  --space-sm: 0.5rem;     /*  8px */
+  --space-md: 1rem;       /* 16px */
+  --space-lg: 1.5rem;     /* 24px */
+  --space-xl: 2rem;       /* 32px */
+  --space-2xl: 3rem;      /* 48px */
+  --space-3xl: 4rem;      /* 64px */
+}
+
+
+/* ============================================================
+   GLOBAL RESET
+   Box-sizing border-box on everything, zero default margins
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ============================================================
+   HTML & BODY
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   TYPOGRAPHY SCALE
+   Fluid type using clamp() for responsive sizing
+   ============================================================ */
+
+h1 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  line-height: 1.2;
+}
+
+h4 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.3;
+}
+
+body, p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+small {
+  font-size: 0.875rem;
+}
+
+/* Japanese accent text — for decorative Japanese characters */
+.jp-accent {
+  font-family: 'Noto Serif JP', serif;
+}
+
+
+/* ============================================================
+   CANVAS CONTAINER — Three.js WebGL Canvas
+   Fixed behind all content, non-interactive by default
+   ============================================================ */
+
+#canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* When Three.js scene needs mouse interaction */
+#canvas-container.interactive {
+  pointer-events: all;
+}
+
+
+/* ============================================================
+   CONTENT WRAPPER — Sits above the 3D canvas
+   Sections within are interactive, wrapper itself is not
+   ============================================================ */
+
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.content-wrapper > section {
+  pointer-events: all;
+}
+
+
+/* ============================================================
+   SELECTION COLORS — Themed text selection
+   ============================================================ */
+
+::selection {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+::-moz-selection {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+
+/* ============================================================
+   SCROLLBAR STYLING — Thin themed scrollbar
+   ============================================================ */
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+/* Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) var(--bg-secondary);
+}
+
+
+/* ============================================================
+   LINK DEFAULTS
+   ============================================================ */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* ============================================================
+   IMAGE DEFAULTS
+   ============================================================ */
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-accent {
+  color: var(--accent-primary);
+}

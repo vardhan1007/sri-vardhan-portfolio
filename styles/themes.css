@@ -1,0 +1,297 @@
+/* ============================================================
+   THEMES.CSS — 7 Color Theme Presets
+   Each theme defines a complete design token set.
+   Default theme: Sakura (applied to html root)
+   ============================================================ */
+
+/* ── Smooth theme transition on root ── */
+html {
+  transition:
+    background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* All themed properties transition smoothly */
+*,
+*::before,
+*::after {
+  transition:
+    background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ============================================================
+   1. SAKURA (OLIVE) — DEFAULT THEME
+   Olive green, light sage-white, deep forest-olive green backgrounds
+   ============================================================ */
+html,
+[data-theme='sakura'] {
+  /* Backgrounds */
+  --bg-primary: #F8F9F4;
+  --bg-secondary: #EFF2E1;
+  --bg-tertiary: #E2E8C5;
+
+  /* Text */
+  --text-primary: #232D12;
+  --text-secondary: #4E6030;
+  --text-muted: #7B8B5B;
+
+  /* Accents */
+  --accent-primary: #8F9E5B;
+  --accent-secondary: #CCD5AE;
+  --accent-glow: rgba(143, 158, 91, 0.45);
+
+  /* Particle colors for Three.js */
+  --particle-color-1: #8F9E5B;
+  --particle-color-2: #A2B276;
+  --particle-color-3: #CCD5AE;
+
+  /* Fog color — rgb values for Three.js */
+  --fog-color: 248, 249, 244;
+
+  /* Glass morphism */
+  --glass-bg: rgba(248, 249, 244, 0.45);
+  --glass-border: rgba(143, 158, 91, 0.25);
+
+  /* Gradient for hero section */
+  --gradient-hero: linear-gradient(
+    135deg,
+    rgba(248, 249, 244, 0.7) 0%,
+    rgba(239, 242, 225, 0.6) 50%,
+    rgba(226, 232, 197, 0.5) 100%
+  );
+
+  /* Shadow glow */
+  --shadow-glow: 0 0 40px rgba(143, 158, 91, 0.3);
+}
+
+
+/* ============================================================
+   2. MIDNIGHT
+   Deep navy, indigo, silver moonlight, electric blue
+   ============================================================ */
+[data-theme='midnight'] {
+  --bg-primary: #0a0e27;
+  --bg-secondary: #111638;
+  --bg-tertiary: #1a1a4e;
+
+  --text-primary: #E8E8F0;
+  --text-secondary: #C0C0E0;
+  --text-muted: #7878A8;
+
+  --accent-primary: #4F6BFF;
+  --accent-secondary: #7B8CFF;
+  --accent-glow: rgba(79, 107, 255, 0.4);
+
+  --particle-color-1: #4F6BFF;
+  --particle-color-2: #7B8CFF;
+  --particle-color-3: #C0C0E0;
+
+  --fog-color: 10, 14, 39;
+
+  --glass-bg: rgba(17, 22, 56, 0.6);
+  --glass-border: rgba(79, 107, 255, 0.2);
+
+  --gradient-hero: linear-gradient(
+    135deg,
+    #0a0e27 0%,
+    #111638 30%,
+    #1a1a4e 60%,
+    #0f1340 100%
+  );
+
+  --shadow-glow: 0 0 40px rgba(79, 107, 255, 0.3);
+}
+
+
+/* ============================================================
+   3. FOREST
+   Deep emerald, teal, bioluminescent green, cyan
+   ============================================================ */
+[data-theme='forest'] {
+  --bg-primary: #0a1f0a;
+  --bg-secondary: #0d2d0d;
+  --bg-tertiary: #0d3d3d;
+
+  --text-primary: #E0F0E0;
+  --text-secondary: #A8D8A8;
+  --text-muted: #5A8A5A;
+
+  --accent-primary: #39FF14;
+  --accent-secondary: #00E5CC;
+  --accent-glow: rgba(57, 255, 20, 0.35);
+
+  --particle-color-1: #39FF14;
+  --particle-color-2: #00E5CC;
+  --particle-color-3: #7AFF7A;
+
+  --fog-color: 10, 31, 10;
+
+  --glass-bg: rgba(13, 45, 13, 0.6);
+  --glass-border: rgba(57, 255, 20, 0.2);
+
+  --gradient-hero: linear-gradient(
+    135deg,
+    #0a1f0a 0%,
+    #0d2d0d 30%,
+    #0d3d3d 60%,
+    #0a2a1a 100%
+  );
+
+  --shadow-glow: 0 0 40px rgba(57, 255, 20, 0.25);
+}
+
+
+/* ============================================================
+   4. GOLDEN
+   Warm charcoal, deep brown, amber, golden accents
+   ============================================================ */
+[data-theme='golden'] {
+  --bg-primary: #1a1510;
+  --bg-secondary: #241e15;
+  --bg-tertiary: #302618;
+
+  --text-primary: #F0E6D0;
+  --text-secondary: #D4C4A0;
+  --text-muted: #8A7A5A;
+
+  --accent-primary: #FFD700;
+  --accent-secondary: #FFB347;
+  --accent-glow: rgba(255, 215, 0, 0.35);
+
+  --particle-color-1: #FFD700;
+  --particle-color-2: #FFB347;
+  --particle-color-3: #FFF0A0;
+
+  --fog-color: 26, 21, 16;
+
+  --glass-bg: rgba(36, 30, 21, 0.6);
+  --glass-border: rgba(255, 215, 0, 0.2);
+
+  --gradient-hero: linear-gradient(
+    135deg,
+    #1a1510 0%,
+    #241e15 30%,
+    #302618 60%,
+    #1f1a0f 100%
+  );
+
+  --shadow-glow: 0 0 40px rgba(255, 215, 0, 0.25);
+}
+
+
+/* ============================================================
+   5. ARCTIC
+   Icy white, pale blue, cyan, silver — LIGHT THEME
+   ============================================================ */
+[data-theme='arctic'] {
+  --bg-primary: #f0f5ff;
+  --bg-secondary: #e4eeff;
+  --bg-tertiary: #d4e4ff;
+
+  --text-primary: #1a2a40;
+  --text-secondary: #3a5070;
+  --text-muted: #7090b0;
+
+  --accent-primary: #00D4FF;
+  --accent-secondary: #A0E8FF;
+  --accent-glow: rgba(0, 212, 255, 0.35);
+
+  --particle-color-1: #00D4FF;
+  --particle-color-2: #A0E8FF;
+  --particle-color-3: #CCF0FF;
+
+  --fog-color: 240, 245, 255;
+
+  --glass-bg: rgba(228, 238, 255, 0.6);
+  --glass-border: rgba(0, 212, 255, 0.25);
+
+  --gradient-hero: linear-gradient(
+    135deg,
+    #f0f5ff 0%,
+    #e4eeff 30%,
+    #d4e4ff 60%,
+    #c8e0ff 100%
+  );
+
+  --shadow-glow: 0 0 40px rgba(0, 212, 255, 0.25);
+}
+
+
+/* ============================================================
+   6. SUMI-E (Ink Wash)
+   Pure black, dark grays, white, minimal aesthetic
+   ============================================================ */
+[data-theme='sumi'] {
+  --bg-primary: #050505;
+  --bg-secondary: #0e0e0e;
+  --bg-tertiary: #1a1a1a;
+
+  --text-primary: #f5f5f0;
+  --text-secondary: #c8c8c0;
+  --text-muted: #888880;
+
+  --accent-primary: #f5f5f0;
+  --accent-secondary: #c8c8c0;
+  --accent-glow: rgba(245, 245, 240, 0.2);
+
+  --particle-color-1: #f5f5f0;
+  --particle-color-2: #888880;
+  --particle-color-3: #555550;
+
+  --fog-color: 5, 5, 5;
+
+  --glass-bg: rgba(14, 14, 14, 0.7);
+  --glass-border: rgba(245, 245, 240, 0.1);
+
+  --gradient-hero: linear-gradient(
+    135deg,
+    #050505 0%,
+    #0e0e0e 30%,
+    #1a1a1a 60%,
+    #0a0a0a 100%
+  );
+
+  --shadow-glow: 0 0 40px rgba(245, 245, 240, 0.1);
+}
+
+
+/* ============================================================
+   7. EMBER
+   Deep crimson, dark red, fire orange, ember red
+   ============================================================ */
+[data-theme='ember'] {
+  --bg-primary: #1a0505;
+  --bg-secondary: #240808;
+  --bg-tertiary: #351010;
+
+  --text-primary: #F0E0D8;
+  --text-secondary: #D4A8A0;
+  --text-muted: #8A5A52;
+
+  --accent-primary: #FF6B35;
+  --accent-secondary: #FF2D2D;
+  --accent-glow: rgba(255, 107, 53, 0.4);
+
+  --particle-color-1: #FF6B35;
+  --particle-color-2: #FF2D2D;
+  --particle-color-3: #FF9B6B;
+
+  --fog-color: 26, 5, 5;
+
+  --glass-bg: rgba(36, 8, 8, 0.6);
+  --glass-border: rgba(255, 107, 53, 0.2);
+
+  --gradient-hero: linear-gradient(
+    135deg,
+    #1a0505 0%,
+    #240808 30%,
+    #351010 60%,
+    #2a0505 100%
+  );
+
+  --shadow-glow: 0 0 40px rgba(255, 107, 53, 0.3);
+}

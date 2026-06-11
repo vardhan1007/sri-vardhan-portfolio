@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Aurora — Collaborative Art & AI Suggestion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="header">
+    <div class="logo">
+      <span>AURORA</span> <span class="badge">V1.0 LIVE</span>
+    </div>
+    <div class="active-users">
+      <div class="users-avatars">
+        <span class="avatar cursor-color-1">K</span>
+        <span class="avatar cursor-color-2">A</span>
+        <span class="avatar cursor-color-3">Y</span>
+        <span class="avatar self">SV</span>
+      </div>
+      <span class="users-count">4 designers active</span>
+    </div>
+    <div class="header-actions">
+      <button id="undo-btn" class="action-btn" title="Undo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
+      </button>
+      <button id="clear-btn" class="action-btn text-danger" title="Clear Canvas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+      </button>
+      <button id="export-btn" class="btn btn-primary">
+        <span>Export Art</span>
+      </button>
+      <a href="/" class="btn btn-secondary">
+        <span>Back to Portfolio</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Grid Layout -->
+  <main class="app-layout">
+    <!-- Sidebar: Drawing controls and AI assistant -->
+    <aside class="sidebar">
+      <div class="panel-section">
+        <h3>Drawing Tools</h3>
+        <div class="tool-grid">
+          <button id="tool-pencil" class="tool-btn active" data-tool="pencil">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+            <span>Pencil</span>
+          </button>
+          <button id="tool-brush" class="tool-btn" data-tool="brush">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11.5a6 6 0 0 1-6 6 6 6 0 0 1-6-6c0-6 6-10 6-10s6 4 6 10z"></path></svg>
+            <span>Brush</span>
+          </button>
+          <button id="tool-eraser" class="tool-btn" data-tool="eraser">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16l8-8 8 8-3 4z"></path></svg>
+            <span>Eraser</span>
+          </button>
+        </div>
+
+        <div class="control-group">
+          <label for="brush-size">Size: <span id="brush-size-val">5px</span></label>
+          <input type="range" id="brush-size" min="1" max="50" value="5">
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3>Palette Library</h3>
+        <div class="palette-swatches" id="current-palette">
+          <div class="swatch color-active" style="background-color: #8a2be2;" data-color="#8a2be2"></div>
+          <div class="swatch" style="background-color: #00ffcc;" data-color="#00ffcc"></div>
+          <div class="swatch" style="background-color: #ff007f;" data-color="#ff007f"></div>
+          <div class="swatch" style="background-color: #ffb347;" data-color="#ffb347"></div>
+          <div class="swatch" style="background-color: #ffffff;" data-color="#ffffff"></div>
+        </div>
+        <div class="custom-color-picker">
+          <input type="color" id="color-picker" value="#8a2be2">
+          <span>Custom HEX Color</span>
+        </div>
+      </div>
+
+      <div class="panel-section ai-assistant">
+        <div class="ai-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai-icon"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+          <h3>Aurora AI Assistant</h3>
+        </div>
+        <p class="ai-desc">Describe your design vibe, and Aurora AI will recommend a curated color scheme and theme variables dynamically.</p>
+        <div class="ai-form">
+          <textarea id="ai-prompt" placeholder="e.g., 'Cyberpunk neo-tokyo with electric neon vibes' or 'Serene Japanese autumn garden'"></textarea>
+          <button id="ai-generate-btn" class="btn btn-accent btn-full">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+            <span>Generate Theme</span>
+          </button>
+        </div>
+        <div class="ai-response" id="ai-suggestion-box" style="display: none;">
+          <div class="response-title">Suggested: <strong id="ai-theme-title">Midnight Cyber</strong></div>
+          <div class="ai-palette-preview" id="ai-palette-preview">
+            <!-- Dynamically populated by JS -->
+          </div>
+          <button id="apply-ai-palette" class="btn btn-secondary btn-full btn-sm">Apply to Palette</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Canvas container and floating status details -->
+    <div class="canvas-container">
+      <canvas id="paint-canvas"></canvas>
+
+      <!-- Floating Canvas Info Overlay -->
+      <div class="canvas-overlay bottom-left">
+        <div class="room-status">
+          <span class="pulse-indicator"></span>
+          <span>Room #0926 // Live Sync Active</span>
+        </div>
+      </div>
+
+      <div class="canvas-overlay bottom-right">
+        <div class="cursor-coords" id="coords">X: 0 | Y: 0</div>
+      </div>
+
+      <!-- Simulated multiplayer cursors overlay -->
+      <div id="multiplayer-cursors">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

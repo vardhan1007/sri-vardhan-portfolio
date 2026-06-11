@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manga Reader — Immersive Art Viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+JP:wght@400;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="header">
+    <div class="logo">
+      <span>SHONEN RENDER</span> <span class="badge">V1.0 LIVE</span>
+    </div>
+    <div class="view-controls">
+      <button id="mode-scroll" class="control-btn active" title="Webtoon Scroll Mode">Vertical Scroll</button>
+      <button id="mode-flip" class="control-btn" title="Traditional Page Flip Mode">Page Flip</button>
+    </div>
+    <div class="header-actions">
+      <button id="char-drawer-btn" class="btn btn-secondary">
+        <span>Character Profiles</span>
+      </button>
+      <a href="/" class="btn btn-secondary">
+        <span>Back to Portfolio</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Grid Layout -->
+  <main class="app-layout">
+    <!-- Reader Workspace (Canvas/Pages Container) -->
+    <div class="reader-container" id="reader-container">
+      <!-- Webtoon Scroll Wrapper -->
+      <div id="scroll-wrapper" class="scroll-view active">
+        <!-- Images injected by JS -->
+      </div>
+
+      <!-- Page Flip Wrapper -->
+      <div id="flip-wrapper" class="flip-view">
+        <button id="prev-page" class="flip-arrow left-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        
+        <div class="flip-page-container">
+          <img id="flip-img" src="" alt="Manga Page">
+        </div>
+
+        <button id="next-page" class="flip-arrow right-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Sidebar Drawer (Visual Filters) -->
+    <aside class="sidebar">
+      <div class="panel-section">
+        <h3>Page Filter Effects</h3>
+        <div class="filter-grid">
+          <button class="filter-btn active" data-filter="normal">Normal</button>
+          <button class="filter-btn" data-filter="sepia">Sepia Paper</button>
+          <button class="filter-btn" data-filter="ink">High Ink</button>
+          <button class="filter-btn" data-filter="darkroom">Darkroom</button>
+        </div>
+      </div>
+
+      <!-- Controls & Progress indicator for page flip -->
+      <div class="panel-section" id="flip-progress-section" style="display: none;">
+        <h3>Page Navigation</h3>
+        <div class="nav-control-group">
+          <label for="page-slider">Page: <span id="page-indicator">1 / 9</span></label>
+          <input type="range" id="page-slider" min="1" max="9" value="1">
+        </div>
+      </div>
+
+      <!-- Short guide / instructions -->
+      <div class="panel-section instruction-panel">
+        <h3>Reader Info</h3>
+        <ul>
+          <li><strong>Scroll Mode</strong>: Read smoothly from top to bottom.</li>
+          <li><strong>Page Flip Mode</strong>: Turn pages via arrow keys or buttons.</li>
+          <li>Sketches featured here are hand-drawn by Sri Vardhan, representing characters and page fragments.</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Floating Character Sidebar Drawer -->
+  <div class="drawer-overlay" id="char-drawer-overlay">
+    <div class="drawer-panel glass-panel">
+      <div class="drawer-header">
+        <h2>Character Profiles</h2>
+        <button id="close-drawer" class="close-btn">&times;</button>
+      </div>
+      <div class="drawer-body">
+        <!-- Kenji Card -->
+        <div class="char-card">
+          <div class="char-avatar-wrapper">
+            <img src="/assets/manga/manga2.jpg" alt="Kenji">
+          </div>
+          <div class="char-info">
+            <h3>Kenji // 健二</h3>
+            <span class="char-role">Protagonist</span>
+            <p>A quiet high school student who possesses the rare ability to see spiritual connections between objects and memories. Wields ancient ink scroll techniques.</p>
+          </div>
+        </div>
+
+        <!-- Hiro Card -->
+        <div class="char-card">
+          <div class="char-avatar-wrapper">
+            <img src="/assets/manga/manga5.png" alt="Hiro">
+          </div>
+          <div class="char-info">
+            <h3>Hiro // 大輝</h3>
+            <span class="char-role">Rival / Comrade</span>
+            <p>A skilled martial artist with an intense determination to prove himself. Specializes in energy manipulation and fights alongside Kenji to maintain balance.</p>
+          </div>
+        </div>
+
+        <!-- Sora Card -->
+        <div class="char-card">
+          <div class="char-avatar-wrapper">
+            <img src="/assets/manga/manga6.png" alt="Sora">
+          </div>
+          <div class="char-info">
+            <h3>Sora // 空</h3>
+            <span class="char-role">Mentor</span>
+            <p>An enigmatic wanderer who guides Kenji in utilizing his ink powers. Holds keys to the connection matrix and coordinates the rebellion.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
