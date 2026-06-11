@@ -27,6 +27,7 @@ import { CustomCursor } from './interactions/CustomCursor.js';
 import { ScrollManager } from './interactions/ScrollManager.js';
 import { MagneticButtons } from './interactions/MagneticButtons.js';
 import { ParallaxElements } from './interactions/ParallaxElements.js';
+import { MobileHover } from './interactions/MobileHover.js';
 
 // ── Sections ────────────────────────────────────────────────
 import { Loader } from './sections/Loader.js';
@@ -219,6 +220,10 @@ class App {
     // Parallax elements
     this.parallaxElements = new ParallaxElements();
     this.parallaxElements.init();
+
+    // Mobile touch hover interactions
+    this.mobileHover = new MobileHover();
+    this.mobileHover.init();
 
     console.log('✅ Interactions initialized');
   }
