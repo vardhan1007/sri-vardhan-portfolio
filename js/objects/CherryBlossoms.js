@@ -15,14 +15,14 @@ import * as THREE from 'three';
 const PETAL_COUNT = 800;
 const SPAWN_HEIGHT = 35;
 const KILL_HEIGHT = -10;
-const SPAWN_RADIUS_XZ = 30;
+const SPAWN_RADIUS_XZ = 65;     // Expanded from 30 for wider horizontal scatter
 const GRAVITY = -0.25;         // Negative gravity for falling feel
 const DRIFT_AMPLITUDE = 1.2;
 const DRIFT_FREQUENCY = 0.35;
 const ROTATION_SPEED = 0.3;
 
 const FIREFLY_COUNT = 80;
-const FIREFLY_RADIUS_XZ = 30;
+const FIREFLY_RADIUS_XZ = 60;   // Expanded from 30 for wider horizontal scatter
 const FIREFLY_RISE_SPEED = 0.2;
 const FIREFLY_WANDER = 0.4;
 
@@ -45,35 +45,35 @@ function createPetalTexture(shapeIndex) {
   
   if (shapeIndex === 0) {
     // Broad Cleft Petal - Classic Sakura
-    ctx.moveTo(128, 230);
-    ctx.bezierCurveTo(30, 200, 20, 70, 105, 45);
-    ctx.bezierCurveTo(128, 35, 120, 75, 128, 75);
-    ctx.bezierCurveTo(136, 75, 128, 35, 151, 45);
-    ctx.bezierCurveTo(236, 70, 226, 200, 128, 230);
+    ctx.moveTo(128, 235);
+    ctx.bezierCurveTo(10, 200, 5, 60, 105, 40);
+    ctx.bezierCurveTo(128, 30, 115, 70, 128, 70);
+    ctx.bezierCurveTo(141, 70, 128, 30, 151, 40);
+    ctx.bezierCurveTo(251, 60, 246, 200, 128, 235);
   } else if (shapeIndex === 1) {
     // Slightly Asymmetric Broad Cleft Petal
-    ctx.moveTo(128, 230);
-    ctx.bezierCurveTo(40, 195, 30, 80, 110, 50);
-    ctx.bezierCurveTo(125, 40, 122, 80, 130, 80);
-    ctx.bezierCurveTo(138, 80, 132, 40, 155, 45);
-    ctx.bezierCurveTo(230, 65, 215, 195, 128, 230);
+    ctx.moveTo(128, 235);
+    ctx.bezierCurveTo(20, 195, 10, 70, 110, 45);
+    ctx.bezierCurveTo(125, 35, 118, 75, 130, 75);
+    ctx.bezierCurveTo(142, 75, 132, 35, 155, 40);
+    ctx.bezierCurveTo(245, 55, 235, 195, 128, 235);
   } else if (shapeIndex === 2) {
     // Deep Cleft Heart Petal
-    ctx.moveTo(128, 225);
-    ctx.bezierCurveTo(35, 185, 25, 60, 100, 40);
-    ctx.bezierCurveTo(128, 30, 120, 85, 128, 85);
-    ctx.bezierCurveTo(136, 85, 128, 30, 156, 40);
-    ctx.bezierCurveTo(231, 60, 221, 185, 128, 225);
+    ctx.moveTo(128, 230);
+    ctx.bezierCurveTo(15, 185, 10, 50, 100, 35);
+    ctx.bezierCurveTo(128, 25, 115, 80, 128, 80);
+    ctx.bezierCurveTo(141, 80, 128, 25, 156, 35);
+    ctx.bezierCurveTo(246, 50, 241, 185, 128, 230);
   } else {
     // Full Broad Rounded Petal (no cleft, but wide)
-    ctx.moveTo(128, 230);
-    ctx.bezierCurveTo(25, 190, 25, 60, 128, 35);
-    ctx.bezierCurveTo(231, 60, 231, 190, 128, 230);
+    ctx.moveTo(128, 235);
+    ctx.bezierCurveTo(5, 190, 5, 50, 128, 30);
+    ctx.bezierCurveTo(251, 50, 251, 190, 128, 235);
   }
   ctx.closePath();
   ctx.clip();
 
-  const grad = ctx.createLinearGradient(128, 230, 128, 35);
+  const grad = ctx.createLinearGradient(128, 235, 128, 30);
   if (shapeIndex === 0) {
     grad.addColorStop(0.0, '#ffe5ec');
     grad.addColorStop(0.4, '#ffb7c5');
@@ -104,7 +104,7 @@ function createPetalTexture(shapeIndex) {
     ctx.beginPath();
     ctx.moveTo(128, 225);
     const t = j / veinCount;
-    const targetX = 40 + t * 176;
+    const targetX = 25 + t * 206;
     const targetY = 45 + Math.sin(t * Math.PI) * 25;
     ctx.bezierCurveTo(
       128 + (targetX - 128) * 0.3, 170,
@@ -258,8 +258,8 @@ export class CherryBlossoms {
     
     this._pPos[i3]     = (Math.random() - 0.5) * SPAWN_RADIUS_XZ;
     
-    const localKillHeight = cameraY - 22;
-    const localSpawnHeight = cameraY + 22;
+    const localKillHeight = cameraY - 35;
+    const localSpawnHeight = cameraY + 35;
 
     // Falling physics: spawn relative to current camera height
     this._pPos[i3 + 1] = randomY
@@ -283,8 +283,8 @@ export class CherryBlossoms {
   _updatePetals(time, dt) {
     const cameraY = this.camera ? this.camera.position.y : 30;
     const cameraZ = this.camera ? this.camera.position.z : 50;
-    const localKillHeight = cameraY - 22;
-    const localSpawnHeight = cameraY + 22;
+    const localKillHeight = cameraY - 35;
+    const localSpawnHeight = cameraY + 35;
 
     for (let i = 0; i < this._visibleCount; i++) {
       const i3 = i * 3;
