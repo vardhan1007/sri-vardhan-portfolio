@@ -220,7 +220,7 @@ export class CherryBlossoms {
     this._pPhase = new Float32Array(c);
 
     for (let i = 0; i < c; i++) {
-      this._resetPetal(i, true, 50);
+      this._resetPetal(i, true, 30, 50);
     }
 
     this._petalTextures = [];
@@ -253,22 +253,25 @@ export class CherryBlossoms {
     this._updatePetalMatrices();
   }
 
-  _resetPetal(i, randomY = false, cameraZ = 50) {
+  _resetPetal(i, randomY = false, cameraY = 30, cameraZ = 50) {
     const i3 = i * 3;
     
     this._pPos[i3]     = (Math.random() - 0.5) * SPAWN_RADIUS_XZ;
     
-    // Falling physics: spawn at the top of the scene on reset
+    const localKillHeight = cameraY - 22;
+    const localSpawnHeight = cameraY + 22;
+
+    // Falling physics: spawn relative to current camera height
     this._pPos[i3 + 1] = randomY
-      ? Math.random() * (SPAWN_HEIGHT - KILL_HEIGHT) + KILL_HEIGHT
-      : SPAWN_HEIGHT + Math.random() * 5;
+      ? Math.random() * (localSpawnHeight - localKillHeight) + localKillHeight
+      : localSpawnHeight + Math.random() * 5;
     
     this._pPos[i3 + 2] = cameraZ - 40 + Math.random() * 45;
 
-    // Downward floating speeds
-    this._pVel[i3]     = (Math.random() - 0.5) * 0.25;
-    this._pVel[i3 + 1] = GRAVITY * 0.6 - Math.random() * 0.25;
-    this._pVel[i3 + 2] = (Math.random() - 0.5) * 0.25;
+    // Downward floating speeds (lively and randomized)
+    this._pVel[i3]     = (Math.random() - 0.5) * 0.5;
+    this._pVel[i3 + 1] = -1.2 - Math.random() * 1.5; // Starts falling immediately
+    this._pVel[i3 + 2] = (Math.random() - 0.5) * 0.5;
 
     this._pRot[i3]     = Math.random() * Math.PI * 2;
     this._pRot[i3 + 1] = Math.random() * Math.PI * 2;
@@ -278,15 +281,19 @@ export class CherryBlossoms {
   }
 
   _updatePetals(time, dt) {
+    const cameraY = this.camera ? this.camera.position.y : 30;
     const cameraZ = this.camera ? this.camera.position.z : 50;
+    const localKillHeight = cameraY - 22;
+    const localSpawnHeight = cameraY + 22;
 
     for (let i = 0; i < this._visibleCount; i++) {
       const i3 = i * 3;
       const ph = this._pPhase[i];
 
-      // Gravity acceleration (negative for downward pull)
-      this._pVel[i3 + 1] += GRAVITY * dt * 0.2;
-      this._pVel[i3 + 1] = Math.max(this._pVel[i3 + 1], GRAVITY * 0.8);
+      // Gravity acceleration
+      this._pVel[i3 + 1] += GRAVITY * dt;
+      const termVel = -1.8 - (ph % 1.2); // unique terminal velocity per petal
+      this._pVel[i3 + 1] = Math.max(this._pVel[i3 + 1], termVel);
 
       const driftX = Math.sin(time * DRIFT_FREQUENCY + ph) * DRIFT_AMPLITUDE * dt;
       const driftZ = Math.cos(time * DRIFT_FREQUENCY * 0.7 + ph * 1.3) * DRIFT_AMPLITUDE * 0.6 * dt;
@@ -299,9 +306,9 @@ export class CherryBlossoms {
       this._pRot[i3 + 1] += ROTATION_SPEED * 0.5 * dt;
       this._pRot[i3 + 2] += ROTATION_SPEED * 0.4 * dt;
 
-      // Wrap Y (falling below KILL_HEIGHT)
-      if (this._pPos[i3 + 1] < KILL_HEIGHT) {
-        this._resetPetal(i, false, cameraZ);
+      // Wrap Y (falling below localKillHeight)
+      if (this._pPos[i3 + 1] < localKillHeight) {
+        this._resetPetal(i, false, cameraY, cameraZ);
       }
 
       // Wrap Z corridor to keep petals around the camera depth of field

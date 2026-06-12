@@ -354,7 +354,6 @@
   /* Make background text columns extremely subtle and balance layout */
   .hero__text-col {
     display: none;
-    opacity: 0.05 !important;
   }
 
   /* Show a balanced selection of columns spread across the screen */
