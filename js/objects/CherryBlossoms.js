@@ -44,30 +44,36 @@ function createPetalTexture(shapeIndex) {
   ctx.beginPath();
   
   if (shapeIndex === 0) {
-    ctx.moveTo(128, 220);
-    ctx.bezierCurveTo(48, 190, 40, 70, 108, 50);
-    ctx.bezierCurveTo(128, 40, 120, 70, 128, 70);
-    ctx.bezierCurveTo(136, 70, 128, 40, 148, 50);
-    ctx.bezierCurveTo(216, 70, 208, 190, 128, 220);
+    // Broad Cleft Petal - Classic Sakura
+    ctx.moveTo(128, 230);
+    ctx.bezierCurveTo(30, 200, 20, 70, 105, 45);
+    ctx.bezierCurveTo(128, 35, 120, 75, 128, 75);
+    ctx.bezierCurveTo(136, 75, 128, 35, 151, 45);
+    ctx.bezierCurveTo(236, 70, 226, 200, 128, 230);
   } else if (shapeIndex === 1) {
-    ctx.moveTo(128, 220);
-    ctx.bezierCurveTo(68, 180, 60, 90, 108, 50);
-    ctx.bezierCurveTo(128, 30, 168, 50, 168, 90);
-    ctx.bezierCurveTo(168, 170, 168, 190, 128, 220);
+    // Slightly Asymmetric Broad Cleft Petal
+    ctx.moveTo(128, 230);
+    ctx.bezierCurveTo(40, 195, 30, 80, 110, 50);
+    ctx.bezierCurveTo(125, 40, 122, 80, 130, 80);
+    ctx.bezierCurveTo(138, 80, 132, 40, 155, 45);
+    ctx.bezierCurveTo(230, 65, 215, 195, 128, 230);
   } else if (shapeIndex === 2) {
-    ctx.moveTo(128, 210);
-    ctx.bezierCurveTo(88, 190, 68, 100, 108, 60);
-    ctx.bezierCurveTo(128, 40, 148, 60, 156, 100);
-    ctx.bezierCurveTo(164, 160, 148, 190, 128, 210);
+    // Deep Cleft Heart Petal
+    ctx.moveTo(128, 225);
+    ctx.bezierCurveTo(35, 185, 25, 60, 100, 40);
+    ctx.bezierCurveTo(128, 30, 120, 85, 128, 85);
+    ctx.bezierCurveTo(136, 85, 128, 30, 156, 40);
+    ctx.bezierCurveTo(231, 60, 221, 185, 128, 225);
   } else {
-    ctx.moveTo(128, 220);
-    ctx.bezierCurveTo(38, 180, 38, 70, 128, 40);
-    ctx.bezierCurveTo(218, 70, 218, 180, 128, 220);
+    // Full Broad Rounded Petal (no cleft, but wide)
+    ctx.moveTo(128, 230);
+    ctx.bezierCurveTo(25, 190, 25, 60, 128, 35);
+    ctx.bezierCurveTo(231, 60, 231, 190, 128, 230);
   }
   ctx.closePath();
   ctx.clip();
 
-  const grad = ctx.createLinearGradient(128, 220, 128, 40);
+  const grad = ctx.createLinearGradient(128, 230, 128, 35);
   if (shapeIndex === 0) {
     grad.addColorStop(0.0, '#ffe5ec');
     grad.addColorStop(0.4, '#ffb7c5');
@@ -96,10 +102,10 @@ function createPetalTexture(shapeIndex) {
   const veinCount = 6;
   for (let j = 0; j <= veinCount; j++) {
     ctx.beginPath();
-    ctx.moveTo(128, 220);
+    ctx.moveTo(128, 225);
     const t = j / veinCount;
-    const targetX = 60 + t * 136;
-    const targetY = 50 + Math.sin(t * Math.PI) * 20;
+    const targetX = 40 + t * 176;
+    const targetY = 45 + Math.sin(t * Math.PI) * 25;
     ctx.bezierCurveTo(
       128 + (targetX - 128) * 0.3, 170,
       128 + (targetX - 128) * 0.7, 110,
@@ -121,7 +127,7 @@ function createPetalTexture(shapeIndex) {
   ctx.fill();
 
   ctx.beginPath();
-  ctx.moveTo(128, 220);
+  ctx.moveTo(128, 225);
   if (shapeIndex === 1) {
     ctx.quadraticCurveTo(110, 130, 140, 50);
   } else {
@@ -436,11 +442,9 @@ export class CherryBlossoms {
   }
 
   updateTheme(colors) {
-    const isSakura = !colors.particle1 || colors.particle1 === 0x8F9E5B;
-    const tintColor = isSakura ? 0xffffff : colors.particle1;
-
+    // Keep petals white-tinted (original pink textures) in all themes
     this.meshes.forEach(mesh => {
-      mesh.material.color.set(tintColor);
+      mesh.material.color.set(0xffffff);
     });
 
     if (colors.accent) {
