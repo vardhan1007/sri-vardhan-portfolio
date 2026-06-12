@@ -162,6 +162,7 @@ class App {
 
       // Cherry blossom particle system
       this.cherryBlossoms = new CherryBlossoms(800);
+      this.cherryBlossoms.cameraWrapper = this.camera;
       this.cherryBlossoms.camera = this.camera.camera;
       this.sceneManager.addObject(this.cherryBlossoms);
 
