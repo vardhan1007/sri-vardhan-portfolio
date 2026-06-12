@@ -79,6 +79,10 @@
   z-index: 5;
 }
 
+.hero__socials-mobile {
+  display: none;
+}
+
 .hero__social-link {
   width: 36px;
   height: 36px;
@@ -296,7 +300,6 @@
   }
 
   .hero__content {
-    order: 1;
     max-width: 100%;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -317,20 +320,17 @@
   }
 
   .hero__socials {
-    order: 2;
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    flex-direction: row;
+    display: none !important;
+  }
+
+  .hero__socials-mobile {
+    display: flex;
     justify-content: center;
-    margin-top: 2rem;
-    padding-left: 0;
     gap: 2rem;
+    margin-top: 2rem;
   }
 
   .hero__stats {
-    order: 3;
     position: relative;
     bottom: auto;
     left: auto;

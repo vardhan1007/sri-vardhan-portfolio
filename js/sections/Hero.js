@@ -11,6 +11,7 @@
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { isTouchDevice } from '../utils/helpers.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,6 +19,9 @@ export class Hero {
   constructor() {
     /** @private GSAP timeline for entrance sequence */
     this._entranceTl = null;
+
+    /** @private GSAP timeline for mobile name animation loop */
+    this._mobileLoopTl = null;
 
     /** @private Mouse position for character parallax */
     this._mouse = { x: 0, y: 0 };
@@ -35,6 +39,7 @@ export class Hero {
     this._setupEntranceAnimation();
     this._setupScrollIndicator();
     this._setupCharacterParallax();
+    this._setupMobileNameAnimation();
   }
 
   /**
@@ -245,11 +250,76 @@ export class Hero {
   }
 
   /**
-   * Cleanup — stop the parallax animation loop.
+   * Set up automated letter-by-letter hover animation loop for mobile touch devices.
+   * @private
+   */
+  _setupMobileNameAnimation() {
+    // Only run on touch devices where hover is not supported
+    if (!isTouchDevice()) return;
+
+    const nameLetters = document.querySelectorAll('.hero__name span');
+    if (nameLetters.length === 0) return;
+
+    // Create a repeating timeline for the automated mobile animation loop
+    this._mobileLoopTl = gsap.timeline({
+      repeat: -1,
+      repeatDelay: 3.5, // Delay before restarting the loop
+      delay: 2.5,       // Wait for the entrance animation to finish completely
+    });
+
+    // 1. Staggered letter-by-letter hover effect
+    nameLetters.forEach((letter) => {
+      // Skip whitespace
+      if (letter.textContent.trim() === '') return;
+
+      this._mobileLoopTl.to(letter, {
+        color: 'var(--accent-primary)',
+        textShadow: '0 4px 15px var(--accent-glow)',
+        y: -8,
+        scale: 1.1,
+        duration: 0.35,
+        ease: 'power2.out',
+      })
+      .to(letter, {
+        color: 'var(--text-primary)',
+        textShadow: 'none',
+        y: 0,
+        scale: 1.0,
+        duration: 0.35,
+        ease: 'power2.in',
+      }, '-=0.18'); // overlapping transition for a wave effect
+    });
+
+    // 2. All letters scale and glow together after the last letter's cycle
+    this._mobileLoopTl.to(nameLetters, {
+      color: 'var(--accent-primary)',
+      textShadow: '0 4px 15px var(--accent-glow)',
+      y: -8,
+      scale: 1.1,
+      duration: 0.5,
+      stagger: 0.02,
+      ease: 'power2.out',
+    }, '+=0.2')
+    .to(nameLetters, {
+      color: 'var(--text-primary)',
+      textShadow: 'none',
+      y: 0,
+      scale: 1.0,
+      duration: 0.5,
+      stagger: 0.02,
+      ease: 'power2.inOut',
+    }, '+=1.0'); // Hold the full color glow for 1 second, then restore
+  }
+
+  /**
+   * Cleanup — stop the parallax animation loop and clear timelines.
    */
   dispose() {
     if (this._rafId) {
       cancelAnimationFrame(this._rafId);
+    }
+    if (this._mobileLoopTl) {
+      this._mobileLoopTl.kill();
     }
   }
 }
