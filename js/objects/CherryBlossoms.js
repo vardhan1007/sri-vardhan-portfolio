@@ -212,6 +212,39 @@ export class CherryBlossoms {
     this._buildFireflies();
   }
 
+  _getViewportBounds(z, camera) {
+    if (!camera) {
+      // Fallback for initialization before camera is bound
+      // Camera is assumed at (0, 30, 50) looking down at Y=0 (Z=0)
+      const dist = 50 - z;
+      const vFOV = (60 * Math.PI) / 180;
+      const height = 2 * Math.tan(vFOV / 2) * dist;
+      const width = height * (16 / 9);
+      
+      return {
+        top: 30 + height / 2,
+        bottom: 30 - height / 2,
+        left: -width / 2,
+        right: width / 2
+      };
+    }
+    
+    // Distance from camera to the plane
+    const dist = camera.position.z - z;
+    
+    // Calculate visible height at this distance
+    const vFOV = (camera.fov * Math.PI) / 180;
+    const height = 2 * Math.tan(vFOV / 2) * dist;
+    const width = height * camera.aspect;
+    
+    return {
+      top: camera.position.y + height / 2,
+      bottom: camera.position.y - height / 2,
+      left: camera.position.x - width / 2,
+      right: camera.position.x + width / 2
+    };
+  }
+
   _buildPetals() {
     const c = this.count;
     this._pPos   = new Float32Array(c * 3);
@@ -220,7 +253,7 @@ export class CherryBlossoms {
     this._pPhase = new Float32Array(c);
 
     for (let i = 0; i < c; i++) {
-      this._resetPetal(i, true, 30, 50);
+      this._resetPetal(i, true);
     }
 
     this._petalTextures = [];
@@ -230,12 +263,14 @@ export class CherryBlossoms {
 
     this.meshes = [];
     const countPerMesh = Math.ceil(c / 4);
+    const opacities = [1.0, 0.85, 0.7, 0.55]; // Vary opacity per layer to create depth
 
     for (let s = 0; s < 4; s++) {
       const geo = new THREE.PlaneGeometry(1.2, 1.2, 1, 1);
       const mat = new THREE.MeshBasicMaterial({
         map: this._petalTextures[s],
         transparent: true,
+        opacity: opacities[s],
         side: THREE.DoubleSide,
         depthWrite: false,
         blending: THREE.NormalBlending,
@@ -253,25 +288,42 @@ export class CherryBlossoms {
     this._updatePetalMatrices();
   }
 
-  _resetPetal(i, randomY = false, cameraY = 30, cameraZ = 50) {
+  _resetPetal(i, randomY = false) {
     const i3 = i * 3;
-    
-    this._pPos[i3]     = (Math.random() - 0.5) * SPAWN_RADIUS_XZ;
-    
-    const localKillHeight = cameraY - 35;
-    const localSpawnHeight = cameraY + 35;
+    const camera = this.camera;
+    const cameraY = camera ? camera.position.y : 30;
+    const cameraZ = camera ? camera.position.z : 50;
 
-    // Falling physics: spawn relative to current camera height
+    const countPerMesh = Math.ceil(this.count / 4);
+    const s = Math.floor(i / countPerMesh); // Layer depth group
+
+    // Distribute depth (Z position) based on layers to match opacity
+    if (s === 0) {
+      this._pPos[i3 + 2] = cameraZ - 15 + Math.random() * 13; // Foreground: Z = -15 to -2
+    } else if (s === 1) {
+      this._pPos[i3 + 2] = cameraZ - 25 + Math.random() * 15; // Mid-ground 1: Z = -25 to -10
+    } else if (s === 2) {
+      this._pPos[i3 + 2] = cameraZ - 35 + Math.random() * 15; // Mid-ground 2: Z = -35 to -20
+    } else {
+      this._pPos[i3 + 2] = cameraZ - 42 + Math.random() * 12; // Background: Z = -42 to -30
+    }
+    
+    const bounds = this._getViewportBounds(this._pPos[i3 + 2], camera);
+    
+    // Spawn X fully within visible horizontal bounds plus drift margin
+    const marginX = 2;
+    this._pPos[i3] = bounds.left - marginX + Math.random() * (bounds.right - bounds.left + 2 * marginX);
+    
+    // Spawn Y covering full viewport height (initial) or off-screen top (recycle)
     this._pPos[i3 + 1] = randomY
-      ? Math.random() * (localSpawnHeight - localKillHeight) + localKillHeight
-      : localSpawnHeight + Math.random() * 5;
-    
-    this._pPos[i3 + 2] = cameraZ - 40 + Math.random() * 45;
+      ? bounds.bottom + Math.random() * (bounds.top - bounds.bottom)
+      : bounds.top + 2 + Math.random() * 4;
 
-    // Downward floating speeds (lively and randomized)
-    this._pVel[i3]     = (Math.random() - 0.5) * 0.5;
-    this._pVel[i3 + 1] = -1.2 - Math.random() * 1.5; // Starts falling immediately
-    this._pVel[i3 + 2] = (Math.random() - 0.5) * 0.5;
+    // Downward floating speeds (slower for background, faster for foreground)
+    const speedMultiplier = 1.0 - (s * 0.12);
+    this._pVel[i3]     = (Math.random() - 0.5) * 0.5 * speedMultiplier;
+    this._pVel[i3 + 1] = (-1.2 - Math.random() * 1.5) * speedMultiplier;
+    this._pVel[i3 + 2] = (Math.random() - 0.5) * 0.3 * speedMultiplier;
 
     this._pRot[i3]     = Math.random() * Math.PI * 2;
     this._pRot[i3 + 1] = Math.random() * Math.PI * 2;
@@ -281,10 +333,9 @@ export class CherryBlossoms {
   }
 
   _updatePetals(time, dt) {
-    const cameraY = this.camera ? this.camera.position.y : 30;
-    const cameraZ = this.camera ? this.camera.position.z : 50;
-    const localKillHeight = cameraY - 35;
-    const localSpawnHeight = cameraY + 35;
+    const camera = this.camera;
+    const cameraY = camera ? camera.position.y : 30;
+    const cameraZ = camera ? camera.position.z : 50;
 
     for (let i = 0; i < this._visibleCount; i++) {
       const i3 = i * 3;
@@ -292,7 +343,7 @@ export class CherryBlossoms {
 
       // Gravity acceleration
       this._pVel[i3 + 1] += GRAVITY * dt;
-      const termVel = -1.8 - (ph % 1.2); // unique terminal velocity per petal
+      const termVel = -1.8 - (ph % 1.2);
       this._pVel[i3 + 1] = Math.max(this._pVel[i3 + 1], termVel);
 
       const driftX = Math.sin(time * DRIFT_FREQUENCY + ph) * DRIFT_AMPLITUDE * dt;
@@ -302,23 +353,25 @@ export class CherryBlossoms {
       this._pPos[i3 + 1] += this._pVel[i3 + 1] * dt;
       this._pPos[i3 + 2] += this._pVel[i3 + 2] * dt + driftZ;
 
+      // Rotate in 3D (X, Y, Z) so the broad petals flip and sway gracefully
       this._pRot[i3]     += ROTATION_SPEED * dt * (0.6 + ph * 0.1);
-      this._pRot[i3 + 1] += ROTATION_SPEED * 0.5 * dt;
-      this._pRot[i3 + 2] += ROTATION_SPEED * 0.4 * dt;
+      this._pRot[i3 + 1] += ROTATION_SPEED * dt * (0.4 + (ph % 0.5));
+      this._pRot[i3 + 2] += ROTATION_SPEED * 0.3 * dt;
 
-      // Wrap Y (falling below localKillHeight)
-      if (this._pPos[i3 + 1] < localKillHeight) {
-        this._resetPetal(i, false, cameraY, cameraZ);
+      // Get bounds at current Z depth
+      const bounds = this._getViewportBounds(this._pPos[i3 + 2], camera);
+
+      // Wrap Y (falling below bounds.bottom)
+      if (this._pPos[i3 + 1] < bounds.bottom - 4) {
+        this._resetPetal(i, false);
       }
 
       // Wrap Z corridor to keep petals around the camera depth of field
-      if (this.camera) {
+      if (camera) {
         const relativeZ = this._pPos[i3 + 2] - cameraZ;
         if (relativeZ < -40) {
-          // Passed far in front, recycle to closer in front
           this._pPos[i3 + 2] = cameraZ - Math.random() * 10;
         } else if (relativeZ > 2) {
-          // Went behind the camera, recycle to far in front
           this._pPos[i3 + 2] = cameraZ - 40 + Math.random() * 10;
         }
       }
@@ -338,7 +391,11 @@ export class CherryBlossoms {
 
         const i3 = globalIdx * 3;
         const visible = globalIdx < this._visibleCount;
-        const scale = visible ? (0.6 + (this._pPhase[globalIdx] % 0.7)) : 0;
+        
+        // Randomize scale but make foreground layers slightly larger and background layers slightly smaller
+        const baseScale = 0.95 - s * 0.15; // Layer 0: 0.95, Layer 1: 0.8, Layer 2: 0.65, Layer 3: 0.5
+        const scaleRandomizer = (this._pPhase[globalIdx] % 0.4);
+        const scale = visible ? (baseScale + scaleRandomizer) : 0;
 
         this._pos.set(this._pPos[i3], this._pPos[i3 + 1], this._pPos[i3 + 2]);
         this._euler.set(this._pRot[i3], this._pRot[i3 + 1], this._pRot[i3 + 2]);
