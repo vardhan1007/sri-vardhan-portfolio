@@ -291,10 +291,12 @@
     justify-content: center;
     align-items: center;
     padding-top: 6rem !important;
-    padding-bottom: 6rem !important;
+    padding-bottom: 3rem !important;
+    min-height: 100vh;
   }
 
   .hero__content {
+    order: 1;
     max-width: 100%;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -303,53 +305,78 @@
   }
 
   .hero__name {
-    font-size: clamp(2.5rem, 11vw, 4.5rem);
+    font-size: clamp(2.2rem, 10vw, 4rem);
     white-space: normal;
+    margin-bottom: 1rem;
+  }
+
+  .hero__tagline {
+    font-size: clamp(0.95rem, 4vw, 1.2rem);
+    letter-spacing: 0.2em;
+    margin-bottom: 2rem;
   }
 
   .hero__socials {
+    order: 2;
     position: relative;
     left: auto;
     top: auto;
     transform: none;
     flex-direction: row;
     justify-content: center;
-    margin-top: 2.5rem;
+    margin-top: 2rem;
     padding-left: 0;
+    gap: 2rem;
   }
 
   .hero__stats {
+    order: 3;
     position: relative;
     bottom: auto;
     left: auto;
     transform: none;
-    padding: 2.5rem 0 0;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
+    padding: 2rem 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .hero__stat-divider {
+    display: none;
   }
 
   .hero__scroll-indicator {
     display: none;
   }
 
-  /* Hide some text columns on mobile for performance */
-  .hero__text-col:nth-child(n+5) {
+  /* Make background text columns extremely subtle and balance layout */
+  .hero__text-col {
     display: none;
+    opacity: 0.05 !important;
+  }
+
+  /* Show a balanced selection of columns spread across the screen */
+  .hero__text-col:nth-child(1),
+  .hero__text-col:nth-child(3),
+  .hero__text-col:nth-child(6),
+  .hero__text-col:nth-child(8) {
+    display: block;
   }
 }
 
 @media (max-width: 480px) {
   .hero__name {
-    font-size: clamp(2rem, 13vw, 3.5rem);
+    font-size: clamp(1.8rem, 12vw, 3rem);
   }
 
   .hero__greeting {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
 
   .hero__tagline {
-    font-size: 0.9rem;
-    letter-spacing: 0.2em;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
   }
 }
