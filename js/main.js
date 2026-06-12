@@ -231,7 +231,44 @@ class App {
     this.mobileHover = new MobileHover();
     this.mobileHover.init();
 
+    // Mobile menu hamburger toggle
+    this.setupMobileMenu();
+
     console.log('✅ Interactions initialized');
+  }
+
+  /**
+   * ── Setup Mobile Menu Toggle ──
+   * Handles hamburger click toggle, closing on link click, and closing on outside click.
+   */
+  setupMobileMenu() {
+    const hamburger = document.getElementById('nav-hamburger');
+    const navLinks = document.getElementById('nav-links');
+    
+    if (!hamburger || !navLinks) return;
+
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    const links = navLinks.querySelectorAll('.nav__link');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('active');
+      }
+    });
   }
 
   /**
