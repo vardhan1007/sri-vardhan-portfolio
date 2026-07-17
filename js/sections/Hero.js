@@ -1,12 +1,6 @@
 /**
- * Hero.js — Cinematic entrance and parallax for the redesigned hero section
- *
- * Features:
- *   1. Each letter of "Sri Vardhan" staggers in with a 3D cascade
- *   2. Greeting, tagline, and CTA fade in sequentially
- *   3. Character image has mouse-driven parallax (shifts slightly with cursor)
- *   4. Scroll indicator pulses and fades on scroll
- *   5. Stats bar slides in from bottom
+ * Hero.js — Cinematic entrance, multilayer parallax, and canvas flames
+ * for the dynamic anime-inspired hero section.
  */
 
 import gsap from 'gsap';
@@ -20,306 +14,303 @@ export class Hero {
     /** @private GSAP timeline for entrance sequence */
     this._entranceTl = null;
 
-    /** @private GSAP timeline for mobile name animation loop */
-    this._mobileLoopTl = null;
-
-    /** @private Mouse position for character parallax */
+    /** @private Mouse coordinates for parallax */
     this._mouse = { x: 0, y: 0 };
-    this._characterEl = null;
+    this._parallaxLayers = [];
     this._rafId = null;
-    this._currentX = 0;
-    this._currentY = 0;
+    
+    // Lerp values for each layer to make animation smooth
+    this._layerPositions = []; 
+
+    // Canvas particle engine properties
+    this._canvas = null;
+    this._ctx = null;
+    this._particles = [];
+    this._canvasRafId = null;
   }
 
   /**
-   * Initialize hero section animations.
-   * Call this after the loader has completed.
+   * Initialize hero section animations and particle loops.
    */
   init() {
     this._setupEntranceAnimation();
     this._setupScrollIndicator();
-    this._setupCharacterParallax();
-    this._setupMobileNameAnimation();
+    this._setupMultilayerParallax();
+    this._setupFlameParticles();
   }
 
   /**
-   * Set up the cinematic entrance animation timeline.
+   * Entrance animations for the new split-panel hero.
    * @private
    */
   _setupEntranceAnimation() {
     const heroSection = document.getElementById('hero');
     if (!heroSection) return;
 
-    // Collect all animatable elements with the new class names
-    const greeting = heroSection.querySelector('.hero__greeting');
-    const nameLetters = heroSection.querySelectorAll('.hero__name span');
-    const tagline = heroSection.querySelector('.hero__tagline');
+    // Select elements
+    const leftPanel = heroSection.querySelector('.hero__left-panel');
+    const rightPanel = heroSection.querySelector('.hero__right-panel');
+    const logo = heroSection.querySelector('.hero__jp-logo');
+    const titleLines = heroSection.querySelectorAll('.hero__bold-title span');
+    const tagline = heroSection.querySelector('.hero__jp-tagline');
+    const subtext = heroSection.querySelector('.hero__quote-subtext');
     const ctaButtons = heroSection.querySelectorAll('.hero__cta .magnetic-btn');
     const scrollIndicator = heroSection.querySelector('.hero__scroll-indicator');
-    const character = heroSection.querySelector('.hero__character');
-    const socials = heroSection.querySelectorAll('.hero__social-link');
-    const stats = heroSection.querySelector('.hero__stats');
+    const character = heroSection.querySelector('.layer-character');
+    const flames = heroSection.querySelector('.layer-fg-flames');
 
-    // ── Set initial states (hidden) ──
-    const fadeElements = [greeting, tagline, scrollIndicator, character, stats].filter(Boolean);
-    gsap.set(fadeElements, { opacity: 0, y: 30 });
-    gsap.set(nameLetters, { opacity: 0, y: 40, filter: 'blur(15px)' });
+    // ── Set Initial States ──
+    gsap.set(leftPanel, { xPercent: -100 });
+    gsap.set(rightPanel, { opacity: 0 });
+    gsap.set(logo, { opacity: 0, y: -20 });
+    gsap.set(titleLines, { opacity: 0, x: -40 });
+    gsap.set(tagline, { opacity: 0, y: 20 });
+    gsap.set(subtext, { opacity: 0 });
     gsap.set(ctaButtons, { opacity: 0, y: 20 });
-    gsap.set(socials, { opacity: 0, x: -20 });
+    gsap.set(scrollIndicator, { opacity: 0, y: 20 });
+    gsap.set(character, { opacity: 0, scale: 0.9, x: 50 });
+    gsap.set(flames, { opacity: 0 });
 
-    // ── Build the entrance timeline ──
-    this._entranceTl = gsap.timeline({
-      delay: 0.3, // Small buffer after loader fades
-    });
+    // ── Entrance Timeline ──
+    this._entranceTl = gsap.timeline({ delay: 0.3 });
 
-    // 1. Greeting ("I am") fades in
-    if (greeting) {
-      this._entranceTl.to(greeting, {
+    this._entranceTl
+      // 1. Slide in the solid violet left panel
+      .to(leftPanel, {
+        xPercent: 0,
+        duration: 0.85,
+        ease: 'power3.out'
+      })
+      // 2. Fade in the right dark gradient panel
+      .to(rightPanel, {
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, '-=0.4')
+      // 3. Stagger-in title lines & logo
+      .to(logo, {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        ease: 'power2.out'
+      }, '-=0.3')
+      .to(titleLines, {
+        opacity: 1,
+        x: 0,
+        duration: 0.6,
+        stagger: 0.12,
+        ease: 'power3.out'
+      }, '-=0.2')
+      // 4. Slide up Japanese tagline
+      .to(tagline, {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        ease: 'power2.out'
+      }, '-=0.3')
+      // 5. Stagger buttons & quotes
+      .to(subtext, {
+        opacity: 1,
+        duration: 0.5
+      }, '-=0.2')
+      .to(ctaButtons, {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        stagger: 0.1,
+        ease: 'power2.out'
+      }, '-=0.3')
+      // 6. Reveal character image & glow flames in right panel
+      .to(character, {
+        opacity: 1,
+        scale: 1,
+        x: 0,
+        duration: 0.9,
+        ease: 'back.out(1.1)'
+      }, '-=0.7')
+      .to(flames, {
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power1.out'
+      }, '-=0.5')
+      // 7. Show scroll hint
+      .to(scrollIndicator, {
         opacity: 1,
         y: 0,
         duration: 0.5,
-        ease: 'power3.out',
-      });
-    }
-
-    // 2. Name letters cascade in with smooth blurred fade
-    if (nameLetters.length > 0) {
-      this._entranceTl.to(
-        nameLetters,
-        {
-          opacity: 1,
-          y: 0,
-          filter: 'blur(0px)',
-          duration: 0.9,
-          stagger: 0.05,
-          ease: 'power4.out',
-        },
-        '-=0.3'
-      );
-    }
-
-    // 3. Tagline slides in
-    if (tagline) {
-      this._entranceTl.to(
-        tagline,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: 'power3.out',
-        },
-        '-=0.4'
-      );
-    }
-
-    // 4. CTA buttons slide up
-    if (ctaButtons.length > 0) {
-      this._entranceTl.to(
-        ctaButtons,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          stagger: 0.12,
-          ease: 'power3.out',
-        },
-        '-=0.2'
-      );
-    }
-
-    // 5. Character image fades and slides in from right
-    if (character) {
-      this._entranceTl.to(
-        character,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power2.out',
-        },
-        '-=0.6'
-      );
-    }
-
-    // 6. Social links slide in from left
-    if (socials.length > 0) {
-      this._entranceTl.to(
-        socials,
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.4,
-          stagger: 0.08,
-          ease: 'power3.out',
-        },
-        '-=0.5'
-      );
-    }
-
-    // 7. Stats bar fades in
-    if (stats) {
-      this._entranceTl.to(
-        stats,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-        },
-        '-=0.3'
-      );
-    }
-
-    // 8. Scroll indicator last
-    if (scrollIndicator) {
-      this._entranceTl.to(
-        scrollIndicator,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-        },
-        '-=0.2'
-      );
-    }
+        ease: 'power2.out'
+      }, '-=0.3');
   }
 
   /**
-   * Set up scroll indicator pulse and scroll-based fade out.
+   * Connect scroll progression to fading the scroll indicator.
    * @private
    */
   _setupScrollIndicator() {
     const scrollIndicator = document.querySelector('.hero__scroll-indicator');
     if (!scrollIndicator) return;
 
-    // Fade out when user starts scrolling
     ScrollTrigger.create({
       trigger: '#hero',
       start: 'top top',
       end: '20% top',
       onUpdate: (self) => {
-        const fadeProgress = self.progress;
         gsap.set(scrollIndicator, {
-          opacity: 1 - fadeProgress * 3,
+          opacity: 1 - self.progress * 3.5
         });
-      },
+      }
     });
   }
 
   /**
-   * Set up mouse-driven parallax on the hero character image.
-   * Subtle movement that follows cursor position.
+   * Multi-layer parallax effect driven by mouse position.
+   * Each layer translates according to its data-depth factor.
    * @private
    */
-  _setupCharacterParallax() {
-    this._characterEl = document.getElementById('hero-character');
-    if (!this._characterEl) return;
+  _setupMultilayerParallax() {
+    if (isTouchDevice()) return;
 
-    // Listen for mouse movement
+    const container = document.getElementById('hero-parallax-container');
+    if (!container) return;
+
+    this._parallaxLayers = Array.from(container.querySelectorAll('.parallax-layer'));
+    
+    // Initialize coordinate positions for easing interpolation (lerping)
+    this._layerPositions = this._parallaxLayers.map(() => ({ currentX: 0, currentY: 0 }));
+
     const onMouseMove = (e) => {
-      // Normalize to -1...1
+      // Normalize mouse coordinates to -1 ... 1
       this._mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       this._mouse.y = (e.clientY / window.innerHeight) * 2 - 1;
     };
 
     window.addEventListener('mousemove', onMouseMove);
 
-    // Smooth animation loop for parallax
-    const maxShiftX = 20; // pixels
-    const maxShiftY = 15; // pixels
-    const lerp = 0.08;    // smoothing factor
+    const maxShiftX = 25; // max translation pixels
+    const maxShiftY = 20;
+    const lerpFactor = 0.08;
 
-    const animate = () => {
-      // Target position based on mouse
-      const targetX = this._mouse.x * maxShiftX;
-      const targetY = this._mouse.y * maxShiftY;
+    const updateParallax = () => {
+      this._parallaxLayers.forEach((layer, index) => {
+        const depth = parseFloat(layer.getAttribute('data-depth')) || 0.2;
+        const pos = this._layerPositions[index];
 
-      // Lerp toward target
-      this._currentX += (targetX - this._currentX) * lerp;
-      this._currentY += (targetY - this._currentY) * lerp;
+        const targetX = this._mouse.x * maxShiftX * depth;
+        const targetY = this._mouse.y * maxShiftY * depth;
 
-      // Apply transform
-      this._characterEl.style.transform =
-        `translate(${this._currentX}px, ${this._currentY}px)`;
+        // Apply linear interpolation (lerping) for ultra smooth movement
+        pos.currentX += (targetX - pos.currentX) * lerpFactor;
+        pos.currentY += (targetY - pos.currentY) * lerpFactor;
 
-      this._rafId = requestAnimationFrame(animate);
+        // Translate layer position
+        layer.style.transform = `translate(${pos.currentX}px, ${pos.currentY}px)`;
+      });
+
+      this._rafId = requestAnimationFrame(updateParallax);
     };
 
-    animate();
+    updateParallax();
   }
 
   /**
-   * Set up automated letter-by-letter hover animation loop for mobile touch devices.
+   * High-performance Canvas particle sparks loop.
+   * Renders glowing teal and blue energy sparks floating up from behind the character.
    * @private
    */
-  _setupMobileNameAnimation() {
-    // Only run on touch devices where hover is not supported
-    if (!isTouchDevice()) return;
+  _setupFlameParticles() {
+    this._canvas = document.getElementById('flame-particles-canvas');
+    if (!this._canvas) return;
 
-    const nameLetters = document.querySelectorAll('.hero__name span');
-    if (nameLetters.length === 0) return;
+    this._ctx = this._canvas.getContext('2d');
+    
+    // Fit canvas bounds
+    const resizeCanvas = () => {
+      const rect = this._canvas.parentNode.getBoundingClientRect();
+      this._canvas.width = rect.width;
+      this._canvas.height = rect.height;
+    };
+    
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
-    // Create a repeating timeline for the automated mobile animation loop
-    this._mobileLoopTl = gsap.timeline({
-      repeat: -1,
-      repeatDelay: 3.5, // Delay before restarting the loop
-      delay: 2.5,       // Wait for the entrance animation to finish completely
-    });
+    // Particle color choices matching the flame lighting theme
+    const colors = ['#00ffd5', '#00d4ff', '#8b5cf6'];
 
-    // 1. Staggered letter-by-letter hover effect
-    nameLetters.forEach((letter) => {
-      // Skip whitespace
-      if (letter.textContent.trim() === '') return;
+    const createParticle = () => {
+      // Spawn points prioritized around center-right (near character's hand pose)
+      const spawnX = this._canvas.width * (0.45 + Math.random() * 0.4);
+      const spawnY = this._canvas.height * (0.5 + Math.random() * 0.45);
 
-      this._mobileLoopTl.to(letter, {
-        color: 'var(--accent-primary)',
-        textShadow: '0 4px 15px var(--accent-glow)',
-        y: -8,
-        scale: 1.1,
-        duration: 0.35,
-        ease: 'power2.out',
-      })
-      .to(letter, {
-        color: 'var(--text-primary)',
-        textShadow: 'none',
-        y: 0,
-        scale: 1.0,
-        duration: 0.35,
-        ease: 'power2.in',
-      }, '-=0.18'); // overlapping transition for a wave effect
-    });
+      return {
+        x: spawnX,
+        y: spawnY,
+        vx: (Math.random() - 0.6) * 1.5,
+        vy: -0.5 - Math.random() * 2.0,
+        radius: 1.5 + Math.random() * 3.5,
+        alpha: 0.3 + Math.random() * 0.6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        life: 0,
+        maxLife: 80 + Math.random() * 120,
+        wiggleSpeed: 0.02 + Math.random() * 0.05,
+        wiggleWidth: 0.3 + Math.random() * 0.8
+      };
+    };
 
-    // 2. All letters scale and glow together after the last letter's cycle
-    this._mobileLoopTl.to(nameLetters, {
-      color: 'var(--accent-primary)',
-      textShadow: '0 4px 15px var(--accent-glow)',
-      y: -8,
-      scale: 1.1,
-      duration: 0.5,
-      stagger: 0.02,
-      ease: 'power2.out',
-    }, '+=0.2')
-    .to(nameLetters, {
-      color: 'var(--text-primary)',
-      textShadow: 'none',
-      y: 0,
-      scale: 1.0,
-      duration: 0.5,
-      stagger: 0.02,
-      ease: 'power2.inOut',
-    }, '+=1.0'); // Hold the full color glow for 1 second, then restore
+    // Pre-populate particles
+    for (let i = 0; i < 40; i++) {
+      this._particles.push(createParticle());
+      // Advance coordinates randomly
+      const p = this._particles[i];
+      p.life = Math.floor(Math.random() * p.maxLife);
+      p.y -= (p.life / p.maxLife) * (this._canvas.height * 0.4);
+    }
+
+    const animateParticles = () => {
+      this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+
+      // Spawn new particles to maintain intensity
+      if (this._particles.length < 80) {
+        this._particles.push(createParticle());
+      }
+
+      this._particles.forEach((p, idx) => {
+        p.life++;
+        
+        // Rise up and wiggle left/right
+        p.x += p.vx + Math.sin(p.life * p.wiggleSpeed) * p.wiggleWidth;
+        p.y += p.vy;
+
+        // Draw glowing particle circles
+        this._ctx.beginPath();
+        this._ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        
+        // Radial color fill with glow
+        this._ctx.fillStyle = p.color;
+        this._ctx.globalAlpha = p.alpha * (1 - (p.life / p.maxLife));
+        this._ctx.fill();
+
+        // Recycle dead particles
+        if (p.life >= p.maxLife || p.y < 0 || p.x < 0 || p.x > this._canvas.width) {
+          this._particles[idx] = createParticle();
+        }
+      });
+
+      this._ctx.globalAlpha = 1.0; // reset alpha
+      this._canvasRafId = requestAnimationFrame(animateParticles);
+    };
+
+    animateParticles();
   }
 
   /**
-   * Cleanup — stop the parallax animation loop and clear timelines.
+   * Cleanup animation loops and observers.
    */
   dispose() {
     if (this._rafId) {
       cancelAnimationFrame(this._rafId);
     }
-    if (this._mobileLoopTl) {
-      this._mobileLoopTl.kill();
+    if (this._canvasRafId) {
+      cancelAnimationFrame(this._canvasRafId);
     }
   }
 }
