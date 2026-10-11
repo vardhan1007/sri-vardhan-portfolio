@@ -84,21 +84,75 @@
     <!-- ──────────────────────────────────────────────────────────
          HERO SECTION
          ────────────────────────────────────────────────────────── -->
-    <section id="hero" class="section hero-section">
-      <!-- Left panel for text (FREE YOURSELF) -->
-      <div class="hero__left-panel">
-        <div class="hero__text-content">
-          <span class="hero__jp-logo">groxi</span>
-          <h1 class="hero__bold-title">
-            <span>FREE</span>
-            <span>YOUR</span>
-            <span>SELF</span>
+    <!-- ──────────────────────────────────────────────────────────
+         HERO SECTION — Editorial Poster Style (Inspired by Reference)
+         ────────────────────────────────────────────────────────── -->
+    <section id="hero" class="section hero-section hero--editorial">
+      
+      <!-- Subtle Layer 1: Background Manga Halftone Texture & Scrolling Japanese Kanji -->
+      <div class="hero__manga-texture" aria-hidden="true"></div>
+      <div class="hero__ancient-text" aria-hidden="true">
+        <div class="hero__text-col" style="--col-speed: 28s; --col-delay: 0s; left: 5%;">
+          <span>縁は運命を紡ぐ糸であり全ての出会いには意味がある創造と破壊の間に真実がある縁は運命を紡ぐ糸であり全ての出会いには意味がある</span>
+        </div>
+        <div class="hero__text-col" style="--col-speed: 36s; --col-delay: -5s; left: 20%;">
+          <span>漫画家の情熱とコードの精密さが交差する世界無限の可能性を秘めた表現漫画家の情熱とコードの精密さが交差する世界</span>
+        </div>
+        <div class="hero__text-col" style="--col-speed: 30s; --col-delay: -12s; left: 42%;">
+          <span>CONST WORLD = NEW CANVAS(); DESIGNER // DEVELOPER // CREATIVE GENIUS CONST WORLD = NEW CANVAS(); DESIGNER // DEVELOPER</span>
+        </div>
+        <div class="hero__text-col" style="--col-speed: 34s; --col-delay: -8s; left: 68%;">
+          <span>限界を突破する者にのみ道は開かれる型にはまらない魂の表現限界を突破する者にのみ道は開かれる型にはまらない魂の表現</span>
+        </div>
+        <div class="hero__text-col" style="--col-speed: 32s; --col-delay: -15s; left: 88%;">
+          <span>技術と芸術の融合が未来を拓く光と闇の境界で躍動する魂技術と芸術の融合が未来を拓く光と闇の境界で躍動する魂</span>
+        </div>
+      </div>
+
+      <!-- Left Vertical Social Links Rail (Just like Image 1) -->
+      <div class="hero__socials">
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hero__social-link" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="hero__social-link" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+            <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+          </svg>
+        </a>
+        <a href="https://github.com/vardhan1007" target="_blank" rel="noopener noreferrer" class="hero__social-link" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+          </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/sri-vardhan-584643279/" target="_blank" rel="noopener noreferrer" class="hero__social-link" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Main Layout Container: Typographic Left + Character Right -->
+      <div class="hero__editorial-container">
+
+        <!-- Faint Background Giant Watermark (Like "GENIUS" in Image 2) -->
+        <div class="hero__bg-watermark" aria-hidden="true">VARDHAN</div>
+
+        <!-- Left Typographic Column -->
+        <div class="hero__left-content">
+          <p class="hero__greeting reveal">I am</p>
+          <h1 class="hero__name reveal">
+            <span>S</span><span>r</span><span>i</span><span>&nbsp;</span><span>V</span><span>a</span><span>r</span><span>d</span><span>h</span><span>a</span><span>n</span>
           </h1>
-          <p class="hero__jp-tagline">型にはまらなかった者たちへ</p>
-          <div class="hero__quote-subtext">
-            <p>OUR GREATEST WEAKNESS LIES IN GIVING UP.</p>
-            <p>THE MOST CERTAIN WAY TO SUCCEED IS TO TRY JUST ONE MORE TIME.</p>
-          </div>
+          <p class="hero__tagline reveal">designer / developer</p>
+
+          <!-- Interactive CTA Buttons -->
           <div class="hero__cta reveal">
             <a href="#projects" class="magnetic-btn hero-btn-primary">
               <span class="btn-text">View My Work</span>
@@ -107,39 +161,56 @@
               <span class="btn-text">Get In Touch</span>
             </a>
           </div>
-        </div>
-      </div>
 
-      <!-- Right panel for Parallax layers and animated flames -->
-      <div class="hero__right-panel" id="hero-parallax-container">
-        
-        <!-- Layer 1: Background grid/stars -->
-        <div class="parallax-layer layer-bg" data-depth="0.10">
-          <!-- Interactive 2D Canvas drawing the swirling sparks -->
+          <!-- Bottom Credential Stats (Directly inspired by Image 1) -->
+          <div class="hero__stats reveal">
+            <span class="hero__stat-value">1+ years experience</span>
+            <span class="hero__stat-divider"></span>
+            <span class="hero__stat-value">Aspiring CTO</span>
+            <span class="hero__stat-divider"></span>
+            <span class="hero__stat-value">Modern Web3D &amp; Manga</span>
+          </div>
+        </div>
+
+        <!-- Right Visual Column: High-Fashion Anime Cutout & Graphic Stickers -->
+        <div class="hero__visual-column" id="hero-parallax-container">
+          
+          <!-- Floating Manga Graphic Stickers (Inspired by Image 2: +, <, >, ✦) -->
+          <div class="graphic-sticker sticker-cross-1" data-depth="0.15">+</div>
+          <div class="graphic-sticker sticker-cross-2" data-depth="0.25">+</div>
+          <div class="graphic-sticker sticker-bracket-1" data-depth="0.20">&lt;</div>
+          <div class="graphic-sticker sticker-bracket-2" data-depth="0.30">&gt;</div>
+          <div class="graphic-sticker sticker-sparkle" data-depth="0.35">✦</div>
+
+          <!-- Floating Creative Badge Chip (Inspired by Image 2 "The Creative Genius") -->
+          <div class="creative-badge" data-depth="0.25">
+            <span class="badge-dot"></span>
+            <span>The Creative Developer</span>
+          </div>
+
+          <!-- The Anime Character Cutout with Parallax & Eye/Sunglasses Flare -->
+          <div class="character-wrapper parallax-layer" data-depth="0.18">
+            <div class="character-glint-container">
+              <img id="hero-editorial-img" src="/assets/morpheus_cutout.png" alt="Sri Vardhan - Anime Character Avatar">
+              <!-- Sunglass Lens Flare Glint (Inspired by Image 2 Eye Reflection) -->
+              <div class="sunglass-lens-reflection" aria-hidden="true">
+                <span class="lens-code">&lt;/&gt;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Ambient Canvas for gentle floating sparks -->
           <canvas id="flame-particles-canvas"></canvas>
         </div>
 
-        <!-- Layer 2: Character illustration -->
-        <div class="parallax-layer layer-character" data-depth="0.25">
-          <img id="hero-char-img" src="/assets/hero_anime_character.png" alt="Anime Hero Character">
-        </div>
-
-        <!-- Layer 3: Foreground animated flames/lightning overlay -->
-        <div class="parallax-layer layer-fg-flames" data-depth="0.55">
-          <svg class="energy-lightning" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path id="flame-path-1" class="flame-arc" d="M -10 110 Q 30 70 50 110" stroke="#00ffd5" />
-            <path id="flame-path-2" class="flame-arc" d="M 40 110 Q 70 50 110 90" stroke="#00d4ff" />
-            <path id="flame-path-3" class="flame-arc" d="M 0 50 Q 50 20 100 50" stroke="#8b5cf6" />
-          </svg>
-        </div>
-        
       </div>
 
-      <!-- Scroll indicator -->
+      <!-- Scroll indicator on bottom right -->
       <div class="hero__scroll-indicator">
         <span>Scroll</span>
         <div class="scroll-line"></div>
       </div>
+
     </section>
 
 
